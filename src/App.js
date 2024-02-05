@@ -47,6 +47,7 @@ import ForgotPassword from "./Admin/ForgotPassword";
 import Login from "./Components/Login/Login";
 import NavBar from "./Components/Login/NavBar";
 import LFooter from "./Components/Login/LFooter";
+import LEnquiry from "./Components/Login/LEnquiry";
 
 
 function App() {
@@ -256,6 +257,7 @@ function App() {
                 <>
                   <NavBar />
                   <LFooter />
+                  <LEnquiry />
                 </>
               }
             />
