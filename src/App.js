@@ -47,6 +47,9 @@ import ForgotPassword from "./Admin/ForgotPassword";
 import Login from "./Components/Login/Login";
 import NavBar from "./Components/Login/NavBar";
 import LFooter from "./Components/Login/LFooter";
+import LEnquiry from "./Components/Login/LEnquiry";
+import LHome from "./Components/Login/LHome";
+import LBookYathra from "./Components/Login/LBookYathra";
 
 
 function App() {
@@ -255,7 +258,20 @@ function App() {
               element={
                 <>
                   <NavBar />
+                  <LHome />
                   <LFooter />
+                  <LEnquiry />
+                </>
+              }
+            />
+             <Route
+              path="/LoginBookYatra"
+              element={
+                <>
+                  <NavBar />
+                  <LBookYathra />
+                  <LFooter />
+                  <LEnquiry />
                 </>
               }
             />

@@ -137,11 +137,11 @@ const NavBar = () => {
             >
               <ul className="navbar-mobile">
                 <li>
-                  <a href="/">Home</a>
+                  <a href="/LoginHome">Home</a>
                 </li>
 
                 <li>
-                  <a href="/">Book Yatra</a>
+                  <a href="/LoginBookYatra">Book Yatra</a>
                 </li>
 
                 <li>
