@@ -17,170 +17,176 @@ import { FaEye } from "react-icons/fa";
 import axios from "axios";
 
 const Login = () => {
-    const navigate = useNavigate();
-    // const handleChange = (event) => {
-    //   const { name, value } = event.target;
-    //   setFormData({ ...formData, [name]: value });
-    // };
-  
-    //   const [password, setPassword] = useState("");
-    const [type, setType] = useState("password");
-    const [icon, setIcon] = useState(eyeOff);
-  
-    // const [show, setShow] = useState();
-    // const [show1, setShow1] = useState();
-    // const [show2, setShow2] = useState();
-    // const [show3, setShow3] = useState();
-    // const [show4, setShow4] = useState();
-  
-    // const handleClose = () => setShow(false);
-    // const handleShow = () => setShow(true);
-  
-    // const handleClose1 = () => setShow1(false);
-    // const handleShow1 = () => setShow1(true);
-  
-    // const handleClose2 = () => setShow2(false);
-    // const handleShow2 = () => setShow2(true);
-  
-    // const handleClose3 = () => setShow3(false);
-    // const handleShow3 = () => setShow3(true);
-  
-    // const handleClose4 = () => setShow4(false);
-    // const handleShow4 = () => setShow4(true);
-  
-    const [PasswordShow, setPasswordShow] = useState(false);
-    const [confirmpasswordshow, setconfirmpasswordshow] = useState(false);
-  
-    //==============================================
-    // const notify = (data) => toast.success(data);
-    // const notify1 = (data) => toast.warn(data);
-    // const notify2 = (data) => toast.error(data);
-  
-    const [email, setemail] = useState("");
-    const [password, setpassword] = useState("");
-  
-    // const Userlogin = async () => {
-    //   try {
-    //     if (!email) return notify1("Please enter email id");
-    //     if (!password) return notify1("Please enter password");
-    //     const config = {
-    //       url: "/user/LoginUser",
-    //       method: "post",
-    //       baseURL: "http://localhost:9000/api",
-    //       // headers: { Authorization: `Bearer ${token}` },
-    //       headers: { "Content-Type": "application/json" },
-    //       data: {
-    //         email: email,
-    //         password: password,
-    //       },
-    //     };
-    //     let res = await axios(config);
-    //     if (res.status == 200) {
-    //       toast.success("Successfully login");
-    //       sessionStorage.setItem("user", JSON.stringify(res.data.success));
-    //       sessionStorage.setItem("token", res.data.token);
-    //       setTimeout(() => {
-    //         return navigate("/myaccount");
-    //       }, 1000);
-    //     }
-    //   } catch (error) {
-    //     notify2(error.response.data.error);
-    //     console.log(error);
-    //   }
-    // };
-  
-    // const handleToggle = () => {
-    //   if (type === "password") {
-    //     setIcon(eye);
-    //     setType("text");
-    //   } else {
-    //     setIcon(eyeOff);
-    //     setType("password");
-    //   }
-    // };
-    return (
-      <div>
-        <div className="login-container">
-          {/* <ToastContainer
+  const navigate = useNavigate();
+  // const handleChange = (event) => {
+  //   const { name, value } = event.target;
+  //   setFormData({ ...formData, [name]: value });
+  // };
+
+  //   const [password, setPassword] = useState("");
+  const [type, setType] = useState("password");
+  const [icon, setIcon] = useState(eyeOff);
+
+  // const [show, setShow] = useState();
+  // const [show1, setShow1] = useState();
+  // const [show2, setShow2] = useState();
+  // const [show3, setShow3] = useState();
+  // const [show4, setShow4] = useState();
+
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
+
+  // const handleClose1 = () => setShow1(false);
+  // const handleShow1 = () => setShow1(true);
+
+  // const handleClose2 = () => setShow2(false);
+  // const handleShow2 = () => setShow2(true);
+
+  // const handleClose3 = () => setShow3(false);
+  // const handleShow3 = () => setShow3(true);
+
+  // const handleClose4 = () => setShow4(false);
+  // const handleShow4 = () => setShow4(true);
+
+  const [PasswordShow, setPasswordShow] = useState(false);
+  const [confirmpasswordshow, setconfirmpasswordshow] = useState(false);
+
+  //==============================================
+  // const notify = (data) => toast.success(data);
+  // const notify1 = (data) => toast.warn(data);
+  // const notify2 = (data) => toast.error(data);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const LoginAgent = async () => {
+    console.log(email, password);
+    if (!email) {
+      alert("Please Enter Your Email Id ");
+      return;
+    }
+
+    if (!password) {
+      alert("Please Enter Your Password");
+    } else {
+      try {
+        const config = {
+          url: "/UserLogin",
+          method: "post",
+          baseURL: "http://saisathish.info/api/User",
+          headers: { "content-type": "application/json" },
+          data: {
+            email: email,
+            password: password,
+          },
+        };
+
+        let res = await axios(config);
+        if (res.status === 200) {
+          console.log(res.data.success);
+          alert("Login Success");
+          sessionStorage.setItem("user", JSON.stringify(res.data.success));
+          setEmail("");
+          setPassword("");
+          navigate("/LoginHome");
+        }
+      } catch (error) {
+        console.log("error", error.response);
+        if (error.response) {
+          alert(error.response.data.error);
+        }
+      }
+    }
+  };
+
+  // const handleToggle = () => {
+  //   if (type === "password") {
+  //     setIcon(eye);
+  //     setType("text");
+  //   } else {
+  //     setIcon(eyeOff);
+  //     setType("password");
+  //   }
+  // };
+  return (
+    <div>
+      <div className="login-container">
+        {/* <ToastContainer
             position="top-center"
             autoClose={10000}
             closeOnClick
             pauseOnHover
             draggable
           /> */}
-          <Container>
-            <div className="login-bg">
-              <div className="login mb-4">
-                <img
-                  src="../img/logo.webp"
-                  alt=""
-                  className="footer-logo"
-                  style={{ width: "30%", height: "100px" }}
+        <Container>
+          <div className="login-bg">
+            <div className="login mb-4">
+              <img
+                src="../img/logo.webp"
+                alt=""
+                className="footer-logo"
+                style={{ width: "30%", height: "100px" }}
+              />
+              {/* <p className="text-secondary">Enter Your Details</p> */}
+            </div>
+
+            <div className="mb-4">
+              <InputGroup className="mb-4">
+                <Form.Control
+                  className="login-input"
+                  type="email"
+                  name="email"
+                  placeholder="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+                  aria-describedby="basic-addon1"
                 />
-                {/* <p className="text-secondary">Enter Your Details</p> */}
-              </div>
-  
-              <div className="mb-4">
-                <InputGroup className="mb-4">
+              </InputGroup>
+
+              <div className="col-lg-12 mb-3">
+                <InputGroup className="col-lg-3 mb-3">
                   <Form.Control
+                    type={PasswordShow ? "text" : "password"}
                     className="login-input"
-                    type="email"
-                    name="email"
-                    placeholder="email"
-                    
-                    // onChange={(e) => setemail(e.target.value)}
-                    // value={email}
+                    placeholder="password"
                     aria-describedby="basic-addon1"
+                    name="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
                   />
+                  {PasswordShow ? (
+                    <button
+                      style={{ width: "10%", border: "1px solid #DEDEDE" }}
+                      onClick={() => setPasswordShow(!PasswordShow)}
+                      className="passbtn"
+                    >
+                      <FaEye style={{ color: "#778700" }} />
+                    </button>
+                  ) : (
+                    <button
+                      style={{ width: "10%", border: "1px solid #DEDEDE" }}
+                      onClick={() => setPasswordShow(!PasswordShow)}
+                      className="passbtn"
+                    >
+                      <FaEyeSlash style={{ color: "#778700" }} />
+                    </button>
+                  )}
                 </InputGroup>
-  
-                <div className="col-lg-12 mb-3">
-                  <InputGroup className="col-lg-3 mb-3">
-                    <Form.Control
-                      type={PasswordShow ? "text" : "password"}
-                      className="login-input"
-                      placeholder="password"
-                      aria-describedby="basic-addon1"
-                      name="password"
-                    //   onChange={(e) => setpassword(e.target.value)}
-                      // onChange={handleChange}
-                    //   value={password}
-                    />
-                    {PasswordShow ? (
-                      <button
-                      style={{width:"10%",border:"1px solid #DEDEDE"}}
-                        onClick={() => setPasswordShow(!PasswordShow)}
-                        className="passbtn"
-                      >
-                        <FaEye  style={{color:"#778700"}}/>
-                      </button>
-                    ) : (
-                      <button
-                      style={{width:"10%",border:"1px solid #DEDEDE"}}
-                        onClick={() => setPasswordShow(!PasswordShow)}
-                        className="passbtn"
-                      >
-                        <FaEyeSlash style={{color:"#778700"}}/>
-                      </button>
-                    )}
-                  </InputGroup>
-                </div>
               </div>
-  
-              <div className="mb-4">
-                <Button
-                onClick={()=>navigate("/LoginHome")}
-                  // onClick={() => {
-                  //   Userlogin();
-                  // }}
-                  className="header-search"
-                  style={{ width: "100%", backgroundColor: "orange" }}
-                >
-                  Login
-                </Button>
-              </div>
-  
-              {/* <div className="text-center mb-4">
+            </div>
+
+            <div className="mb-4">
+              <Button
+                // onClick={() => navigate("/LoginHome")}
+                onClick={LoginAgent}
+                className="header-search"
+                style={{ width: "100%", backgroundColor: "orange" }}
+              >
+                Login
+              </Button>
+            </div>
+
+            {/* <div className="text-center mb-4">
                 <p>
                   <span
                     onClick={handleShow}
@@ -201,13 +207,13 @@ const Login = () => {
                   </span>
                 </p>
               </div> */}
-            </div>
-          </Container>
-        </div>
-  
-        {/* OTP VERIFICATion */}
-  
-        {/* <Modal show={show3} onHide={handleClose3}>
+          </div>
+        </Container>
+      </div>
+
+      {/* OTP VERIFICATion */}
+
+      {/* <Modal show={show3} onHide={handleClose3}>
           <Modal.Header closeButton></Modal.Header>
           <Modal.Body>
             <img
@@ -250,9 +256,9 @@ const Login = () => {
             </div>
           </Modal.Body>
         </Modal> */}
-  
-        {/* Enter OTP Modal */}
-        {/* <Modal show={show4} onHide={handleClose4}>
+
+      {/* Enter OTP Modal */}
+      {/* <Modal show={show4} onHide={handleClose4}>
           <Modal.Header closeButton></Modal.Header>
           <Modal.Body>
             <img
@@ -296,10 +302,10 @@ const Login = () => {
             </div>
           </Modal.Body>
         </Modal> */}
-  
-        {/* Forgot Password Modal */}
-  
-        {/* <Modal show={show} onHide={handleClose}>
+
+      {/* Forgot Password Modal */}
+
+      {/* <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton></Modal.Header>
           <Modal.Body>
             <div className="login mb-4">
@@ -327,10 +333,10 @@ const Login = () => {
             </div>
           </Modal.Body>
         </Modal> */}
-  
-        {/* OTP Modal */}
-  
-        {/* <Modal show={show1} onHide={handleClose1}>
+
+      {/* OTP Modal */}
+
+      {/* <Modal show={show1} onHide={handleClose1}>
           <Modal.Header closeButton></Modal.Header>
           <Modal.Body>
             <div className="login mb-4">
@@ -358,10 +364,10 @@ const Login = () => {
             </div>
           </Modal.Body>
         </Modal> */}
-  
-        {/* New Password */}
-  
-        {/* <Modal show={show2} onHide={handleClose2}>
+
+      {/* New Password */}
+
+      {/* <Modal show={show2} onHide={handleClose2}>
           <Modal.Header closeButton></Modal.Header>
           <Modal.Body>
             <div className="login mb-4">
@@ -394,8 +400,8 @@ const Login = () => {
             </div>
           </Modal.Body>
         </Modal> */}
-      </div>
-    );
-  };
+    </div>
+  );
+};
 
-export default Login
+export default Login;
