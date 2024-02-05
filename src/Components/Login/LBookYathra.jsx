@@ -25,9 +25,10 @@ const LBookYathra = () => {
                   border: "1px solid black",
                   borderRadius: "5px",
                   padding: "10px",
+                  textAlign: "center",
                 }}
               >
-                <TbBus />
+                <TbBus style={{ fontSize: "66px" }} />
                 <p> Bus Package</p>
               </div>
               <div
@@ -35,9 +36,10 @@ const LBookYathra = () => {
                   border: "1px solid black",
                   borderRadius: "5px",
                   padding: "10px",
+                  textAlign: "center",
                 }}
               >
-                <FaPlaneDeparture  />
+                <FaPlaneDeparture style={{ fontSize: "66px" }} />
                 <p> Aeroplane</p>
               </div>
             </div>

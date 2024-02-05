@@ -145,7 +145,7 @@ const NavBar = () => {
                 </li>
 
                 <li>
-                  <a href="/"> Buy Kavacha</a>
+                  <a href="/LoginBuy"> Buy Kavacha</a>
                 </li>
                 <li>
                   <a href="/">Booked Details</a>
@@ -162,7 +162,7 @@ const NavBar = () => {
                     List Of Business <FontAwesomeIcon icon={faCaretDown} />
                   </button>
                 </a> */}
-                <div className="d-flex gap-2 " >
+                <div className="d-flex gap-2 ">
                   <FaRegUserCircle
                     style={{
                       borderRadius: "100%",
@@ -170,7 +170,9 @@ const NavBar = () => {
                       height: "30px",
                     }}
                   />
-                  <p>Sheetal Aily <FontAwesomeIcon icon={faCaretDown} /></p>
+                  <p>
+                    Sheetal Aily <FontAwesomeIcon icon={faCaretDown} />
+                  </p>
                 </div>
                 <div
                   class="dropdown-content"
@@ -182,7 +184,6 @@ const NavBar = () => {
                 </div>
               </div>
             </div>
-           
           </nav>
         </div>
       </div>

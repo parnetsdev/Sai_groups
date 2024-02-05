@@ -50,7 +50,7 @@ import LFooter from "./Components/Login/LFooter";
 import LEnquiry from "./Components/Login/LEnquiry";
 import LHome from "./Components/Login/LHome";
 import LBookYathra from "./Components/Login/LBookYathra";
-
+import LBuy from "./Components/Login/LBuy";
 
 function App() {
   return (
@@ -253,7 +253,7 @@ function App() {
                 </>
               }
             />
-             <Route
+            <Route
               path="/LoginHome"
               element={
                 <>
@@ -264,12 +264,23 @@ function App() {
                 </>
               }
             />
-             <Route
+            <Route
               path="/LoginBookYatra"
               element={
                 <>
                   <NavBar />
                   <LBookYathra />
+                  <LFooter />
+                  <LEnquiry />
+                </>
+              }
+            />
+            <Route
+              path="/LoginBuy"
+              element={
+                <>
+                  <NavBar />
+                  <LBuy />
                   <LFooter />
                   <LEnquiry />
                 </>

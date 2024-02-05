@@ -1,0 +1,17 @@
+.product-images {
+  width: 110px;
+  padding: 4px;
+  border-radius: 5px;
+}
+.add-to-cart-btn {
+  border-color: #f1be05;
+  background-color: #f1be05;
+  font-size: 21px;
+  width: 137px;
+  height: 45px;
+  border-radius: 10px;
+}
+.add-to-cart-btn:hover {
+  border-color: #69CC4D;
+  background-color: #69CC4D;
+}
