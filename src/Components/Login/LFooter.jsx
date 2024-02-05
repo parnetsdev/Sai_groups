@@ -93,10 +93,14 @@ const LFooter = () => {
                     </li>
                     <li>
                       <a href="/aboutus" className="text-dark">
-                        <AiOutlineArrowRight /> Order Details
+                        <AiOutlineArrowRight /> Booked Details
                       </a>
                     </li>
-                  
+                    <li>
+                      <a href="/aboutus" className="text-dark">
+                        <AiOutlineArrowRight /> Order History
+                      </a>
+                    </li>
                     <li>
                       <a href="/privacy-policy" className="text-dark">
                         <AiOutlineArrowRight />
