@@ -17,7 +17,6 @@ import {
   MDBIcon,
   MDBBtn,
 } from "mdb-react-ui-kit";
-import Aos from "aos";
 
 const LFooter = () => {
   return (
@@ -77,12 +76,12 @@ const LFooter = () => {
                   </h5>
                   <ul className="list-unstyled text-dark">
                     <li>
-                      <a href="#" className="text-dark">
+                      <a href="/LoginHome" className="text-dark">
                         <AiOutlineArrowRight /> Home
                       </a>
                     </li>
                     <li>
-                      <a href="/listofbusiness" className="text-dark">
+                      <a href="/LoginBookYatra" className="text-dark">
                         <AiOutlineArrowRight /> Book Yatra
                       </a>
                     </li>
@@ -102,13 +101,13 @@ const LFooter = () => {
                       </a>
                     </li>
                     <li>
-                      <a href="/privacy-policy" className="text-dark">
+                      <a href="/LoginPrivacy&Policy" className="text-dark">
                         <AiOutlineArrowRight />
                         Privacy Policy
                       </a>
                     </li>
                     <li>
-                      <a href="/terms-condition" className="text-dark">
+                      <a href="/LoginTerms&Conditions" className="text-dark">
                         <AiOutlineArrowRight /> Terms & Conditions
                       </a>
                     </li>

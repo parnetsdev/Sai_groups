@@ -9,8 +9,6 @@
   }
 }
 
-
-
 p {
   margin-bottom: 0px !important;
 }
@@ -28,11 +26,10 @@ p {
   font-weight: 600;
   /* margin-bottom: 30px; */
   color: #9ba406;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   letter-spacing: 2px;
   /* border-bottom: 1px solid;
   border-width: 1px; */
-
 }
 
 .card {
@@ -106,13 +103,12 @@ p {
 .icon-d {
   font-size: 30px;
   color: #004bab;
-
 }
 
 .wraperr-f {
   display: flex;
   align-items: center;
-  gap: 30px
+  gap: 30px;
 }
 
 .time-d {
@@ -133,7 +129,6 @@ p {
   margin-left: 1rem;
   font-weight: 800;
 }
-
 
 .book-now-btn li {
   list-style-type: none;
@@ -186,7 +181,6 @@ p {
   transform: scaleX(1);
 }
 
-
 .navigation-menu {
   margin-left: auto;
 }
@@ -196,7 +190,6 @@ p {
   padding: 0;
   margin-top: 3px;
 }
-
 
 .navigation-menu li {
   list-style-type: none;
@@ -277,9 +270,7 @@ p {
 .header-carousel {
   height: 400px;
   width: 100%;
-
 }
-
 
 /* Home Page */
 
@@ -287,7 +278,6 @@ p {
   width: 100%;
   height: 300px;
 }
-
 
 /* Counter up */
 .counter-up-border {
@@ -299,8 +289,6 @@ p {
 .counter-up {
   display: flex;
   gap: 10px;
-
-
 }
 
 .counter-up h5 {
@@ -315,16 +303,17 @@ p {
 
 .img-trnsition {
   transform: translate3d(0, 0, 0);
-  transition: transform .9s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
   border-radius: 8px;
   box-shadow: none;
-
 }
 
 .img-trnsition:hover {
   transform: scale(1.2);
   transition: transform 7s ease-in-out 3;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
 /* Bussiness image */
@@ -341,7 +330,6 @@ p {
   color: #9fa73c !important;
   margin-bottom: 10px !important;
 }
-
 
 .enquery-now {
   padding: 5px;
@@ -396,7 +384,6 @@ p {
   border: 1px solid #dcf334 !important;
 }
 
-
 /* ABOUT BUSINESS */
 .about-business-img {
   width: 100%;
@@ -449,7 +436,7 @@ p {
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .scroll_top_button:hover {
@@ -464,7 +451,6 @@ p {
       fill: white;
 
   } */
-
 
 .scroll_top_button.active_0 {
   top: 520px;
@@ -521,14 +507,13 @@ html.smooth {
 
 /* Change color of dropdown links on hover */
 .dropdown-content a:hover {
-  background-color: #f1be05
+  background-color: #f1be05;
 }
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
   display: block;
 }
-
 
 .dropbtn {
   list-style-type: none;
@@ -682,7 +667,6 @@ html.smooth {
   --mdb-accordion-bg: transparent;
 }
 
-
 .accordion-header {
   margin-bottom: -8px !important;
 }
@@ -756,11 +740,9 @@ html.smooth {
     height: 438px;
     background-color: black;
   }
-
 }
 
 @media screen and (max-width: 600px) {
-
   .number-respns {
     display: none !important;
   }
@@ -811,7 +793,6 @@ html.smooth {
   .dropbtn {
     color: rgb(255, 255, 255) !important;
   }
-
 }
 
 @media screen and (width: 768px) {
@@ -820,89 +801,87 @@ html.smooth {
     margin: 0px 5px;
     font-size: 12px;
   }
-
-
 }
 /* ======login Page======= */
 /* Login Start */
 
-.login-container{
+.login-container {
   background-size: cover;
   background-repeat: no-repeat;
   height: 100%;
   width: 100%;
-  background-color: #ABD23B;
+  background-color: #abd23b;
   /* background-image: url("../public/assets/logo.webp"); */
   padding: 146px;
 }
 
 .login-bg {
-    margin: auto;
-    width: 38%;
-    background: rgb(255, 255, 255);
-    padding: 40px 50px 50px;
-    border-radius: 5px;
-    position: relative;
-    box-shadow: rgba(0, 0, 0, 0.8) 0px 4px 20px;
-    margin-top: var(--topspac);
-    max-width: 900px;
-  }
-  
-  .login {
-    text-align: center;
-  }
-  
-  .login h4 {
-    font-size: 42px;
-    margin-bottom: 8px;
-    text-align: center;
-    font-weight: 700;
-    color: #0000007c;
-  }
-  
-  .header-search {
-    background: linear-gradient(39deg, rgb(216 169 29), rgb(249 151 3) 80%);
-    color: rgb(255, 255, 255);
-    border: 0px solid rgb(255, 167, 120) !important;
-    padding: 5px 15px;
-    font-size: 18px;
-    letter-spacing: 1px;
-    transition: all 0.5s ease 0s;
-    border-radius: 5px;
-    font-weight: 600;
-    font-family: "Noto Sans";
-    text-align: center;
-    width: 134px;
-    height: 55px;
-    display: block;
-    line-height: 38px;
-    outline: none;
-  }
+  margin: auto;
+  width: 38%;
+  background: rgb(255, 255, 255);
+  padding: 40px 50px 50px;
+  border-radius: 5px;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.8) 0px 4px 20px;
+  margin-top: var(--topspac);
+  max-width: 900px;
+}
 
-  .passbtn{
-    border: 1px solid black;
-  }
-  
-  /* Login End */
-  /* Navbar starts */
-  .navigationL {
-    /* position: fixed; */
-    display: flex;
-    align-items: center;
-    height: 50px;
-    width: 100%;
-    padding: 0.5rem 1rem;
-    background: #fbfbfc;
-    height: 90px;
-  
-    box-shadow: 0 2px 2px 2px rgb(9 9 9 / 23%);
-    z-index: 999;
-    top: 0;
-  }
+.login {
+  text-align: center;
+}
+
+.login h4 {
+  font-size: 42px;
+  margin-bottom: 8px;
+  text-align: center;
+  font-weight: 700;
+  color: #0000007c;
+}
+
+.header-search {
+  background: linear-gradient(39deg, rgb(216 169 29), rgb(249 151 3) 80%);
+  color: rgb(255, 255, 255);
+  border: 0px solid rgb(255, 167, 120) !important;
+  padding: 5px 15px;
+  font-size: 18px;
+  letter-spacing: 1px;
+  transition: all 0.5s ease 0s;
+  border-radius: 5px;
+  font-weight: 600;
+  font-family: "Noto Sans";
+  text-align: center;
+  width: 134px;
+  height: 55px;
+  display: block;
+  line-height: 38px;
+  outline: none;
+}
+
+.passbtn {
+  border: 1px solid black;
+}
+
+/* Login End */
+/* Navbar starts */
+.navigationL {
+  /* position: fixed; */
+  display: flex;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  background: #fbfbfc;
+  height: 90px;
+
+  box-shadow: 0 2px 2px 2px rgb(9 9 9 / 23%);
+  z-index: 999;
+  top: 0;
+}
 /* Navbar Ends */
 
 
-  /* Mobile View Start */
+/* Mobile View Start */
 /* @media screen and (max-width:799px) {
   .login-container{
     padding: 20px;
@@ -911,4 +890,4 @@ html.smooth {
     width: 100%;
   }
 } */
-  /* Mobile View End */
+/* Mobile View End */

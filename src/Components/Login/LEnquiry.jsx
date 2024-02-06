@@ -79,163 +79,59 @@ const LEnquiry = () => {
           keyboard={false}
         >
           <Modal.Header closeButton>
-            <Modal.Title className="business-img-text mb-0">
-              Enquiry Now
+            <Modal.Title className="business-img-text mb-0" >
+             <p style={{color:"#69CC4D"}}> Enquiry Now</p>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
+          <div>
+           
+
             <div>
-              <div>
-                <label className="fw-bold mb-1 business-img-text ">
-                  List Of Business / Services
-                </label>
-                <Form.Select
-                  aria-label="Default select example"
-                  style={{ border: "1px solid #dcf334" }}
-                  className="mb-3"
-                  onChange={(e) => setSubject(e.target.value)}
-                >
-                  <option>Select The Business / Service</option>
-                  <option
-                    value="Sri Shirdi Sai Travels"
-                    className="select-yellow"
-                  >
-                    Sri Shirdi Sai Travels
-                  </option>
-                  <option
-                    value="Sri Shirdi Sai Kankana Bhagya"
-                    className="select-green"
-                  >
-                    Sri Shirdi Sai Kankana Bhagya
-                  </option>
-                  <option
-                    value="Sri Shirdi Sai Udyoga Mandir"
-                    className="select-yellow"
-                  >
-                    Sri Shirdi Sai Udyoga Mandir
-                  </option>
-                  <option
-                    value="Sri Shirdi Sai Gold Loan"
-                    className="select-green"
-                  >
-                    Sri Shirdi Sai Gold Loan
-                  </option>
-                  <option
-                    value="Sri Shirdi Sai Pan India Real Estate"
-                    className="select-yellow"
-                  >
-                    Sri Shirdi Sai Pan India Real Estate
-                  </option>
-                  <option
-                    value="Sri Shirdi Sai Scrap Dealers"
-                    className="select-green"
-                  >
-                    Sri Shirdi Sai Scrap Dealers
-                  </option>
-                  <option
-                    value="Sri Shirdi Sai Devlopers"
-                    className="select-yellow"
-                  >
-                    Sri Shirdi Sai Devlopers
-                  </option>
-                  <option
-                    value="Sri Shirdi Sai Pg For Ladies"
-                    className="select-green"
-                  >
-                    Sri Shirdi Sai Pg For Ladies
-                  </option>
-                  <option
-                    value="Sri Shirdi Sai Electric Vehicles"
-                    className="select-yellow"
-                  >
-                    Sri Shirdi Sai Electric Vehicles
-                  </option>
-                  <option
-                    value="Sri Shirdi Sai Home Appliances"
-                    className="select-green"
-                  >
-                    Sri Shirdi Sai Home Appliances
-                  </option>
-                  <option
-                    value="Sri Shirdi Sai Janaasha Bank"
-                    className="select-yellow"
-                  >
-                    Sri Shirdi Sai Janaasha Bank
-                  </option>
-                  <option
-                    value="Sri Shirdi Sai Bore Wells"
-                    className="select-green"
-                  >
-                    Sri Shirdi Sai Bore Wells
-                  </option>
-                  <option
-                    value="Sri Shirdi Sai Charitable Trust Service"
-                    className="select-yellow"
-                  >
-                    Sri Shirdi Sai Charitable Trust Service
-                  </option>
-                  <option
-                    value="Sri Shirdi Sai Mediac Broad casting Service"
-                    className="select-green"
-                  >
-                    Sri Shirdi Sai Mediac Broad casting Service
-                  </option>
-                  <option
-                    value="Sri Shirdi Sai Nath Micro Service"
-                    className="select-yellow"
-                  >
-                    Sri Shirdi Sai Nath Micro Service
-                  </option>
-                  <option
-                    value="Sri Shirdi Sai Ai Multi Service"
-                    className="select-green"
-                  >
-                    Sri Shirdi Sai Ai Multi Service
-                  </option>
-                </Form.Select>
-              </div>
-  
-              <div>
-                <input
-                  style={{ border: "1px solid #dcf334" }}
-                  type="text"
-                  className="form-control  mb-3"
-                  placeholder="Name"
-                  aria-label="Name"
-                  aria-describedby="basic-addon1"
-                //   onChange={(e) => setName(e.target.value)}
-                />
-                <input
-                  style={{ border: "1px solid #dcf334" }}
-                  type="number"
-                  className="form-control mb-3"
-                  placeholder="Number"
-                  aria-label="Number"
-                  aria-describedby="basic-addon1"
-                //   onChange={(e) => setNumber(e.target.value)}
-                />
-              </div>
-  
-              <div>
-                <input
-                  style={{ border: "1px solid #dcf334" }}
-                  type="email"
-                  className="form-control mb-3"
-                  placeholder="Email ID"
-                  aria-label="Email ID"
-                  aria-describedby="basic-addon1"
-                //   onChange={(e) => setEmail(e.target.value)}
-                />
-                <textarea
-                  style={{ border: "1px solid #dcf334" }}
-                  class="form-control"
-                  placeholder="Message"
-                  id="floatingTextarea"
-                //   onChange={(e) => setMsg(e.target.value)}
-                ></textarea>
-              </div>
+              <label>Name</label>
+              <input
+                style={{ border: "1px solid #69CC4D" }}
+                type="text"
+                className="form-control  mb-3"
+                placeholder="Name"
+                aria-label="Name"
+                aria-describedby="basic-addon1"
+                onChange={(e) => setName(e.target.value)}
+              />
+              <label>Phone No</label>
+              <input
+                style={{ border: "1px solid #69CC4D" }}
+                type="number"
+                className="form-control mb-3"
+                placeholder="Number"
+                aria-label="Number"
+                aria-describedby="basic-addon1"
+                onChange={(e) => setNumber(e.target.value)}
+              />
             </div>
-          </Modal.Body>
+
+            <div>
+              <label>Email ID</label>
+              <input
+                style={{ border: "1px solid #69CC4D" }}
+                type="email"
+                className="form-control mb-3"
+                placeholder="Email ID"
+                aria-label="Email ID"
+                aria-describedby="basic-addon1"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <label>Enquire </label>
+              <textarea
+                style={{ border: "1px solid #69CC4D" }}
+                class="form-control"
+                placeholder="Message"
+                id="floatingTextarea"
+                onChange={(e) => setMsg(e.target.value)}
+              ></textarea>
+            </div>
+          </div>
+        </Modal.Body>
           <Modal.Footer className="justify-content-center">
             <div>
               {" "}
