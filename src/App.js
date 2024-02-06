@@ -55,6 +55,8 @@ import LPrivacy_Policy from "./Components/Login/LPrivacy_Policy";
 import LProfile from "./Components/Login/LProfile";
 
 import LBuy from "./Components/Login/LBuy";
+import LBookedDetails from "./Components/Login/LBookedDetails";
+import LOrderHistroy from "./Components/Login/LOrderHistroy";
 
 function App() {
   return (
@@ -317,6 +319,28 @@ function App() {
                 <>
                   <NavBar />
                   <LProfile />
+                </>
+              }
+            />
+             <Route
+              path="/LoginBookedDetails"
+              element={
+                <>
+                  <NavBar />
+                  <LBookedDetails />
+                  <LEnquiry />
+                  <LFooter />
+                </>
+              }
+            />
+              <Route
+              path="/LoginOrderHistroy"
+              element={
+                <>
+                  <NavBar />
+                  <LOrderHistroy />
+                  <LEnquiry />
+                  
                 </>
               }
             />

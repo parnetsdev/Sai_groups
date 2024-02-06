@@ -23,7 +23,7 @@ const LFooter = () => {
     <div>
       <div className="margin-top me-0">
         <MDBFooter
-          style={{ backgroundColor: "rgb(241 190 5)", color: "#000" }}
+          style={{ backgroundColor: "#3DD065", color: "#000" }}
           className=" text-center text-lg-left"
         >
           <MDBContainer className="pt-4">
