@@ -281,7 +281,7 @@ function App() {
                 </>
               }
             />
-             <Route
+            <Route
               path="/LoginTerms&Conditions"
               element={
                 <>
@@ -300,8 +300,9 @@ function App() {
                   <LPrivacy_Policy />
                   <LFooter />
                   <LEnquiry />
-                </>}
-                />
+                </>
+              }
+            />
             <Route
               path="/LoginBuy"
               element={
@@ -313,7 +314,7 @@ function App() {
                 </>
               }
             />
-             <Route
+            <Route
               path="/LoginProfile"
               element={
                 <>
