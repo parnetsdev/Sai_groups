@@ -50,14 +50,11 @@ import LFooter from "./Components/Login/LFooter";
 import LEnquiry from "./Components/Login/LEnquiry";
 import LHome from "./Components/Login/LHome";
 import LBookYathra from "./Components/Login/LBookYathra";
-<<<<<<< HEAD
 import LTerms_Conditions from "./Components/Login/LTerms_Conditions";
 import LPrivacy_Policy from "./Components/Login/LPrivacy_Policy";
 import LProfile from "./Components/Login/LProfile";
 
-=======
 import LBuy from "./Components/Login/LBuy";
->>>>>>> 0f5f0925f2890003acb731b2498273bb12ab73c7
 
 function App() {
   return (
@@ -282,7 +279,6 @@ function App() {
                 </>
               }
             />
-<<<<<<< HEAD
              <Route
               path="/LoginTerms&Conditions"
               element={
@@ -300,20 +296,21 @@ function App() {
                 <>
                   <NavBar />
                   <LPrivacy_Policy />
-=======
+                  <LFooter />
+                  <LEnquiry />
+                </>}
+                />
             <Route
               path="/LoginBuy"
               element={
                 <>
                   <NavBar />
                   <LBuy />
->>>>>>> 0f5f0925f2890003acb731b2498273bb12ab73c7
                   <LFooter />
                   <LEnquiry />
                 </>
               }
             />
-<<<<<<< HEAD
              <Route
               path="/LoginProfile"
               element={
@@ -323,8 +320,6 @@ function App() {
                 </>
               }
             />
-=======
->>>>>>> 0f5f0925f2890003acb731b2498273bb12ab73c7
           </Routes>
         </BrowserRouter>
       </>
