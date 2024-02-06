@@ -60,7 +60,7 @@ const NavBar = () => {
         }}
       >
         <div className="container-fluid p-0">
-          <div className="header-s">
+          <div className="header-ss">
             <div className="left-h">
               <a href="/contact" style={{ color: "black" }}>
                 <FontAwesomeIcon icon={faLocationDot} className="fs-5 me-2" />
@@ -134,7 +134,7 @@ const NavBar = () => {
             <div
               className={
                 isNavExpanded
-                  ? "navigation-menu expanded"
+                  ? "navigation-menuu expanded"
                   : "navigation-menu mx-auto"
               }
               style={{ marginTop: "12px" }}
@@ -152,10 +152,10 @@ const NavBar = () => {
                   <a href="/LoginBuy"> Buy Kavacha</a>
                 </li>
                 <li>
-                  <a href="/">Booked Details</a>
+                  <a href="/LoginBookedDetails">Booked Details</a>
                 </li>
                 <li>
-                  <a href="/">Order Histroy</a>
+                  <a href="/LoginOrderHistroy">Order Histroy</a>
                 </li>
               </ul>
             </div>

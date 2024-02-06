@@ -99,7 +99,12 @@ p {
   align-items: center;
   background-color: #f1be05;
 }
-
+.header-ss {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #3DD065;
+}
 .icon-d {
   font-size: 30px;
   color: #004bab;
@@ -803,6 +808,32 @@ html.smooth {
   }
 }
 /* ======login Page======= */
+/* ====headers====== */
+
+.navigation-menuu li a:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #3DD065;
+  transform: scaleX(0);
+  transform-origin: 50%;
+  transition-property: transform;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-out;
+}
+
+.navigation-menuu li a:hover {
+  color: rgb(0, 0, 0);
+  border: 1px solid #3DD065;
+}
+
+.navigation-menuu li a:hover:before {
+  transform: scaleX(1);
+}
 /* Login Start */
 
 .login-container {

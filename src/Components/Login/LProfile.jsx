@@ -28,7 +28,7 @@ const LProfile = () => {
       <div className="myaccount-component">
         {/* {User?.map((item) => {
             return ( */}
-        <>
+      
           <div className="profile-container text-center">
             <img
               src="./img/gallery-img-5.webp"
@@ -110,7 +110,7 @@ const LProfile = () => {
               </div>
             </div>
           </div>
-        </>
+        
         {/* );
            })} */}
       </div>
