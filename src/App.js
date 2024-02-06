@@ -50,6 +50,9 @@ import LFooter from "./Components/Login/LFooter";
 import LEnquiry from "./Components/Login/LEnquiry";
 import LHome from "./Components/Login/LHome";
 import LBookYathra from "./Components/Login/LBookYathra";
+import LTerms_Conditions from "./Components/Login/LTerms_Conditions";
+import LPrivacy_Policy from "./Components/Login/LPrivacy_Policy";
+import LProfile from "./Components/Login/LProfile";
 
 
 function App() {
@@ -272,6 +275,37 @@ function App() {
                   <LBookYathra />
                   <LFooter />
                   <LEnquiry />
+                </>
+              }
+            />
+             <Route
+              path="/LoginTerms&Conditions"
+              element={
+                <>
+                  <NavBar />
+                  <LTerms_Conditions />
+                  <LFooter />
+                  <LEnquiry />
+                </>
+              }
+            />
+            <Route
+              path="/LoginPrivacy&Policy"
+              element={
+                <>
+                  <NavBar />
+                  <LPrivacy_Policy />
+                  <LFooter />
+                  <LEnquiry />
+                </>
+              }
+            />
+             <Route
+              path="/LoginProfile"
+              element={
+                <>
+                  <NavBar />
+                  <LProfile />
                 </>
               }
             />

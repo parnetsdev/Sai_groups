@@ -176,9 +176,9 @@ const NavBar = () => {
                   class="dropdown-content"
                   style={{ overflowY: "scroll", height: "99px" }}
                 >
-                  <a onClick={() => navigate("/", {})}>Profile</a>
+                  <a onClick={() => navigate("/LoginProfile")}>Profile</a>
 
-                  <a onClick={() => navigate("/", {})}>Logout</a>
+                  <a onClick={() => navigate("/login", {})}>Logout</a>
                 </div>
               </div>
             </div>
