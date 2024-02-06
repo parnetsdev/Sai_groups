@@ -4,7 +4,11 @@ import Container from "react-bootstrap/Container";
 // import Navbar from "react-bootstrap/Navbar";
 import { BsStopwatch, BsWhatsapp } from "react-icons/bs";
 import { AiOutlinePhone } from "react-icons/ai";
-import { faCaretDown, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCaretDown,
+  faLocationDot,
+  faCartShopping,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -156,6 +160,15 @@ const NavBar = () => {
               </ul>
             </div>
             <div className="d-flex justify-content-center">
+              <div
+                style={{ marginRight: "10px", fontSize: "23px" }}
+                onClick={() => navigate("/LoginCart")}
+              >
+                <FontAwesomeIcon
+                  icon={faCartShopping}
+                  style={{ color: "#7be255" }}
+                />
+              </div>
               <div className="dropdown">
                 {/* <a href="/">
                   <button class="dropbtn d-flex gap-2 align-items-center">

@@ -55,6 +55,7 @@ import LPrivacy_Policy from "./Components/Login/LPrivacy_Policy";
 import LProfile from "./Components/Login/LProfile";
 
 import LBuy from "./Components/Login/LBuy";
+import LCart from "./Components/Login/LCart";
 
 function App() {
   return (
@@ -318,6 +319,17 @@ function App() {
                 <>
                   <NavBar />
                   <LProfile />
+                </>
+              }
+            />
+            <Route
+              path="/LoginCart"
+              element={
+                <>
+                  <NavBar />
+                  <LCart />
+                  <LFooter />
+                  <LEnquiry />
                 </>
               }
             />

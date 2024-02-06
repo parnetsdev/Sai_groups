@@ -2,15 +2,23 @@ import React, { useEffect, useState } from "react";
 import "./Styles/LBuy.css";
 import axios from "axios";
 export default function LBuy() {
-  const [selectedImg, setSelectedImg] = useState("/img/bussiness-img-5.webp");
-  function changeImgNdAttr(id, imgSelected) {
-    setSelectedImg(imgSelected);
-
-    console.log(
-      document.getElementById("parentImgDiv").children[0].id,
-      9898999999
-    );
-    const parentDivForImg = document.getElementById("parentImgDiv");
+  const agentDetails = sessionStorage.getItem("user");
+  // const [selectedImg, setSelectedImg] = useState("");
+  // const [selectedimgid, setSelectedimgid] = useState(
+  //   "/img/bussiness-img-5.webp"
+  // );
+  function changeImgNdAttr(id, imgSelected, itemid) {
+    // setSelectedImg(imgSelected);
+    // setSelectedimgid(itemid);
+    document
+      .getElementById(`img-div-${itemid}`)
+      .setAttribute("src", imgSelected);
+    // console.log(
+    //   document.getElementById("parentImgDiv").children[0].id,
+    //   9898999999
+    // );
+    const parentDivForImg = document.getElementById(`parentImgDiv-${itemid}`);
+    console.log(parentDivForImg, `parentImgDiv-${itemid}`, 7473737);
     const childDivForImg = document.getElementById(id);
     parentDivForImg.children[0]["id"] == id
       ? (childDivForImg.style.border = "2px solid red")
@@ -27,6 +35,7 @@ export default function LBuy() {
   }
 
   const [allproduct, setAllproduct] = useState([]);
+  const [SeeMore, setSeeMore] = useState(false);
   let getAllProductDeatils = async () => {
     try {
       let res = await axios.get(
@@ -40,81 +49,129 @@ export default function LBuy() {
     }
   };
   useEffect(() => {
-    getAllProductDeatils();
-  }, []);
+    if (!agentDetails) {
+      return alert("Please login first");
+    } else {
+      getAllProductDeatils();
+    }
+  }, [agentDetails]);
+  console.log(3232323, allproduct);
   return (
-    <div className="d-flex p-5">
-      <div id="parentImgDiv" className="p-3">
-        <div
-          id="img-1"
-          onClick={() => changeImgNdAttr("img-1", "/img/bussiness-img-5.webp")}
-        >
-          <img
-            src="/img/bussiness-img-5.webp"
-            alt="no-image"
-            className="product-images"
-          />
-        </div>
-        <div
-          id="img-2"
-          onClick={() => changeImgNdAttr("img-2", "/img/bussiness-img-2.webp")}
-        >
-          <img
-            src="/img/bussiness-img-2.webp"
-            alt="no-image"
-            className="product-images"
-          />
-        </div>
-        <div
-          id="img-3"
-          onClick={() => changeImgNdAttr("img-3", "/img/bussiness-img-3.webp")}
-        >
-          <img
-            src="/img/bussiness-img-3.webp"
-            alt="no-image"
-            className="product-images"
-          />
-        </div>
-        <div
-          id="img-4"
-          onClick={() => changeImgNdAttr("img-4", "/img/bussiness-img-4.webp")}
-        >
-          <img
-            src="/img/bussiness-img-4.webp"
-            alt="no-image"
-            className="product-images"
-          />
-        </div>
-      </div>
-      <div className="p-3">
-        <img src={`${selectedImg}`} alt="mo-image" style={{ width: "432px" }} />
-      </div>
-      <div className="p-3">
-        <h6 style={{ fontSize: "3rem" }}>20% Off Gifts from Sai Group</h6>
-        <p style={{ fontSize: "25px" }}>
-          <b style={{ marginRight: "30px" }}>₹3000/-</b>
-          <button className="add-to-cart-btn">Add to cart</button>
-        </p>
-        <div style={{ marginTop: "25px" }}>
-          <h5 style={{ color: "#F1BE05" }}>About Sai Yantra</h5>
-          <p>
-            The blessings of Sai Baba are contained in Sai Kavach. With its
-            spiritual advantages, Sai Baba Kavach helps remove all forms of
-            barriers from one's life and bestows Sai baba's blessings. You
-            receive energizing power from Sai Kavach Pendant.
-          </p>
-          <h4>Details</h4>
-          <ol>
-            <li>Made of Gold</li>
-            <li>Height: 6CM</li>
-            <li>Width: 5CM</li>
-          </ol>
-          <h4>Services</h4>
-          <p>Cash On Delivery Available</p>
-          <h4>Seller</h4>
-          <p>Sai Group</p>
-        </div>
-      </div>
+    <div className="main-container">
+      {allproduct?.map((items) => {
+        return (
+          <div className="d-flex p-5">
+            <div id={`parentImgDiv-${items?._id}`} className="p-3">
+              <div
+                id={`img-${items?._id}-1`}
+                onClick={() =>
+                  changeImgNdAttr(
+                    `img-${items?._id}-1`,
+                    `http://saisathish.info/Product/${items?.image1}`,
+                    `${items?._id}`
+                  )
+                }
+              >
+                <img
+                  src={`http://saisathish.info/Product/${items?.image1}`}
+                  alt="no-image"
+                  className="product-images"
+                />
+              </div>
+              <div
+                id={`img-${items?._id}-2`}
+                onClick={() => {
+                  console.log(`img-${items?._id}-2`);
+                  changeImgNdAttr(
+                    `img-${items?._id}-2`,
+                    `http://saisathish.info/Product/${items?.image2}`,
+                    `${items?._id}`
+                  );
+                }}
+              >
+                <img
+                  src={`http://saisathish.info/Product/${items?.image2}`}
+                  alt="no-image"
+                  className="product-images"
+                />
+              </div>
+              <div
+                id={`img-${items?._id}-3`}
+                onClick={() =>
+                  changeImgNdAttr(
+                    `img-${items?._id}-3`,
+                    `http://saisathish.info/Product/${items?.image3}`,
+                    `${items?._id}`
+                  )
+                }
+              >
+                <img
+                  src={`http://saisathish.info/Product/${items?.image3}`}
+                  alt="no-image"
+                  className="product-images"
+                />
+              </div>
+              <div
+                id={`img-${items?._id}-4`}
+                onClick={() =>
+                  changeImgNdAttr(
+                    `img-${items?._id}-4`,
+                    `http://saisathish.info/Product/${items?.image4}`,
+                    `${items?._id}`
+                  )
+                }
+              >
+                <img
+                  src={`http://saisathish.info/Product/${items?.image4}`}
+                  alt="no-image"
+                  className="product-images"
+                />
+              </div>
+            </div>
+            <div className="p-3">
+              <img
+                id={`img-div-${items?._id}`}
+                src={`http://saisathish.info/Product/${items?.image1}`}
+                alt="no-image"
+                style={{ width: "432px" }}
+              />
+            </div>
+            <div className="p-3">
+              <h6 style={{ fontSize: "3rem" }}>{items?.productName}</h6>
+              <p style={{ fontSize: "25px" }}>
+                <b style={{ marginRight: "30px" }}>₹{items?.price}/-</b>
+                <button className="add-to-cart-btn">Add to cart</button>
+              </p>
+              <div style={{ marginTop: "25px" }}>
+                <h5 style={{ color: "#F1BE05" }}>About</h5>
+                {!SeeMore ? (
+                  <span
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setSeeMore(true)}
+                  >
+                    see more...
+                  </span>
+                ) : (
+                  <></>
+                )}
+                {SeeMore ? (
+                  <div>
+                    {items?.productDiscription}
+                    <span
+                      style={{ marginLeft: "5px", cursor: "pointer" }}
+                      onClick={() => setSeeMore(false)}
+                    >
+                      show less
+                    </span>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
