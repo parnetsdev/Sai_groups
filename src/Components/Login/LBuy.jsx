@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Styles/LBuy.css";
+import axios from "axios";
 export default function LBuy() {
   const [selectedImg, setSelectedImg] = useState("/img/bussiness-img-5.webp");
   function changeImgNdAttr(id, imgSelected) {
@@ -24,6 +25,23 @@ export default function LBuy() {
       ? (childDivForImg.style.border = "2px solid red")
       : (parentDivForImg.children[3].style.border = "2px solid #ffffff");
   }
+
+  const [allproduct, setAllproduct] = useState([]);
+  let getAllProductDeatils = async () => {
+    try {
+      let res = await axios.get(
+        "http://saisathish.info/api/Admin/getAllProduct"
+      );
+      if (res.status === 200) {
+        setAllproduct(res.data.success);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getAllProductDeatils();
+  }, []);
   return (
     <div className="d-flex p-5">
       <div id="parentImgDiv" className="p-3">
