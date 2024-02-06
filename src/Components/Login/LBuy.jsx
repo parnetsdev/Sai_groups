@@ -5,15 +5,24 @@ export default function LBuy() {
   function changeImgNdAttr(id, imgSelected) {
     setSelectedImg(imgSelected);
 
-    document.getElementById("parentImgDiv").children[0].style.border =
-      "2px solid #ffffff";
-    document.getElementById("parentImgDiv").children[1].style.border =
-      "2px solid #ffffff";
-    document.getElementById("parentImgDiv").children[2].style.border =
-      "2px solid #ffffff";
-    document.getElementById("parentImgDiv").children[3].style.border =
-      "2px solid #ffffff";
-    document.getElementById(id).style.border = "2px solid red";
+    console.log(
+      document.getElementById("parentImgDiv").children[0].id,
+      9898999999
+    );
+    const parentDivForImg = document.getElementById("parentImgDiv");
+    const childDivForImg = document.getElementById(id);
+    parentDivForImg.children[0]["id"] == id
+      ? (childDivForImg.style.border = "2px solid red")
+      : (parentDivForImg.children[0].style.border = "2px solid #ffffff");
+    parentDivForImg.children[1]["id"] == id
+      ? (childDivForImg.style.border = "2px solid red")
+      : (parentDivForImg.children[1].style.border = "2px solid #ffffff");
+    parentDivForImg.children[2]["id"] == id
+      ? (childDivForImg.style.border = "2px solid red")
+      : (parentDivForImg.children[2].style.border = "2px solid #ffffff");
+    parentDivForImg.children[3]["id"] == id
+      ? (childDivForImg.style.border = "2px solid red")
+      : (parentDivForImg.children[3].style.border = "2px solid #ffffff");
   }
   return (
     <div className="d-flex p-5">
