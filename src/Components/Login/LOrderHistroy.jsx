@@ -1,13 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal, Row, Table } from "react-bootstrap";
 import LFooter from "./LFooter";
 import { AiFillEye } from "react-icons/ai";
+import axios from "axios";
+import moment from "moment";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 
 const LOrderHistroy = () => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [details, setDetails] = useState({});
+  const [allorder, setAllorder] = useState([]);
+  const getAllorder = async () => {
+    let res = await axios.get(
+      "http://saisathish.info/api/Admin/getOrderDetails"
+    );
+    if (res.status === 200) {
+      setAllorder(res.data.OrderList);
+    }
+  };
+
+  useEffect(() => {
+    getAllorder();
+  }, []);
+
+  // to print the pdf ----->
+  const createPDF = async () => {
+    // setRotate(360);
+
+    // dynamic image is also adding in the PDF
+    const pdf = new jsPDF("portrait", "pt", "a4");
+    const data = await html2canvas(document.querySelector("#pdf"), {
+      useCORS: true,
+    });
+    console.log("hhhh", data);
+    const img = data.toDataURL("image/png");
+    console.log("ddkd1", img);
+    const imgProperties = pdf.getImageProperties(img);
+    console.log("ddkd2", imgProperties);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    console.log("ddkd3", pdfWidth);
+    const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+    console.log("ddkd4", pdfHeight);
+    pdf.addImage(img, "PNG", 0, 0, pdfWidth, pdfHeight);
+
+    // const input = document.getElementById("pdf");
+    // const options = { scrollY: -window.scrollY, useCORS: true };
+    // const canvas = await html2canvas(input, options);
+    // const imgData = canvas.toDataURL("image/png");
+    // const pdf = new jsPDF("p", "pt", [canvas.width, canvas.height]);
+    // pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+
+    pdf.save("RakshaKavachaInvoice.pdf");
+  };
   return (
     <div>
       <div className="container mt-3" style={{ backgroundColor: "white" }}>
@@ -40,31 +89,57 @@ const LOrderHistroy = () => {
               </thead>
 
               <tbody>
-                {/* {users.map((user, index) => ( */}
-                <tr>
-                  <td>1</td>
-                  <td>12434</td>
+                {/* {allorder.map((user, index) => ( */}
+                {allorder?.map((item, i) => {
+                  const formattedDate = moment(
+                    item?.customerorderdatetime
+                  ).format("DD/MM/YYYY");
+                  return (
+                    <tr>
+                      <td>{i + 1}</td>
+                      <td>{item?._id}</td>
 
-                  {/* <td>
-                  {item.allproduct.map((items) => items.productId.productName)}
-                </td> */}
-                  <td>sfgfsf</td>
-                  <td>sggsg</td>
-                  <td>24324</td>
-                  <td>sdfdsf</td>
-                  {/* <td>{item?.deliverydate}</td> */}
-                  <td>sdfsdfsdf</td>
-                  <td>sdfdfsd</td>
-                  {/* <td>Customer Details</td> */}
-                  <td>₹2342343</td>
-                  <td>234234wwerwe23423</td>
-                  <td>12-07-2001</td>
-                  <td>
-                    {" "}
-                    <AiFillEye style={{ fontSize: "20px", color: "blue" }} onClick={handleShow}/>
-                  </td>
-                  <td>delivered</td>
-                </tr>
+                      <td>{item?.FName}</td>
+                      <td>{item?.email}</td>
+                      <td>{item?.Phno}</td>
+                      <td>{formattedDate}</td>
+                      {/* <td>{item?.deliverydate}</td> */}
+                      <td>
+                        {" "}
+                        {item?.allproduct?.map(
+                          (item) => item?.productId?.productName
+                        )}
+                      </td>
+                      <td>
+                        {" "}
+                        {item?.House},{item?.Area},{item?.Landmark},{item?.City}
+                        ,{item?.State}
+                      </td>
+                      {/* <td>Customer Details</td> */}
+                      <td>₹{item?.Totalamount}</td>
+                      <td>{item?.PaymentId}</td>
+                      <td> {moment(item?.createdAt).format("ll")}</td>
+                      <td>
+                        {" "}
+                        <AiFillEye
+                          style={{ fontSize: "20px", color: "blue" }}
+                          onClick={() => {
+                            handleShow();
+                            setDetails(item);
+                          }}
+                        />
+                      </td>
+                      <td>
+                        {" "}
+                        {item?.DeliveredStatus == false ? (
+                          <span style={{ color: "green" }}>Pending</span>
+                        ) : (
+                          <span style={{ color: "red" }}>Deliverd</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </Table>
           </div>
@@ -154,7 +229,9 @@ const LOrderHistroy = () => {
       <Modal size="lg" show={show} onHide={handleClose}>
         <Modal.Header closeButton></Modal.Header>
         <h4 style={{ textAlign: "center" }}>Booked History</h4>
+       
         <Modal.Body>
+        <div className="text-center p-5" id="pdf">
           <Row>
             <div
               className="col-lg-12 mb-3"
@@ -201,10 +278,10 @@ const LOrderHistroy = () => {
                 <hr></hr>
                 <div>
                   <p>
-                    Independent ,Independent ,Kengeri ,<br />
-                    bangalore, 560097
+                    {details?.House},{details?.Area},{details?.Landmark},
+                    {details?.City},{details?.State}
                     <br></br>
-                    +91 8979789798
+                    {details?.Phno}
                   </p>
                 </div>
               </div>
@@ -214,19 +291,29 @@ const LOrderHistroy = () => {
                 </div>
                 <hr></hr>
                 <div>
-                  <b>Order ID:</b>
-                  657858a7d31f9b9ee0a85696<br></br>
-                  <b>Order Date:</b> 16/12/2023 <br></br>
-                  <b>Product Name:</b> Old Plated Shri Sai Raksha Kavach With
-                  Sai Yantra<br></br>
-                  <b>Pay ID:</b> pay_NBRSNjzsYPu4Sx <br></br>
+                  <b>User ID:</b>
+                  {details?._id}
+                  <br></br>
+                  <b>Order Date:</b>{" "}
+                  {moment(details?.customerorderdatetime).format(
+              "DD/MM/YYYY"
+            )}
+                  <br></br>
+                  <b>Product Name:</b>
+                  {details?.allproduct?.map(
+                      (item) => item?.productId?.productName
+                    )}
+                  <br></br>
+                  <b>Pay ID:</b>
+                  {details?.PaymentId}
+                  <br></br>
                 </div>
               </div>
             </div>
           </Row>
-
+          <hr></hr>
           <Row>
-            <hr></hr>
+           
             <div
               className="col-lg-12 mb-3"
               style={{
@@ -235,14 +322,16 @@ const LOrderHistroy = () => {
                 justifyContent: "space-between",
               }}
             >
+            
               <div className="invoice-header">
                 <h4>Total</h4>
               </div>
               <div className="invoice-header">
-                <p style={{ textAlign: "right" }}>₹ 15000</p>
+                <p style={{ textAlign: "right" }}>₹{details?.Totalamount}</p>
               </div>
             </div>
           </Row>
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button
@@ -251,7 +340,7 @@ const LOrderHistroy = () => {
           >
             Close
           </Button>
-          <Button variant="danger" onClick={handleClose}>
+          <Button variant="danger" onClick={()=>{handleClose();createPDF();}}>
             Download Invoice
           </Button>
         </Modal.Footer>

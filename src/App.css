@@ -824,6 +824,7 @@ html.smooth {
   transition-property: transform;
   transition-duration: 0.3s;
   transition-timing-function: ease-out;
+  background-color: #08080845;
 }
 
 .navigation-menuu li a:hover {

@@ -14,6 +14,7 @@ import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { CiMail } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
+import axios from "axios";
 
 const NavBar = () => {
   const [show, setShow] = useState(false);
@@ -26,6 +27,8 @@ const NavBar = () => {
 
   const handleClose1 = () => setShow1(false);
   const handleShow1 = () => setShow1(true);
+
+  
 
   const [isNavExpanded, setIsNavExpanded] = useState(false);
 
