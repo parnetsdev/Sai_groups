@@ -103,7 +103,7 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #3DD065;
+  background-color: #3DD065 ;
 }
 .icon-d {
   font-size: 30px;
