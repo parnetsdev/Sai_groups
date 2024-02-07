@@ -33,29 +33,29 @@ const LProfile = () => {
       
           <div className="profile-container text-center">
             <img
-              src={`https://`}
+              src={`http://saisathish.info/Product/${user?.agentprofile}`}
               alt="Admin"
               className="mt-5"
               width="70%"
               height="200px"
             />
 
-            <h5 className="user-name">Sheetal Aily</h5>
+            <h5 className="user-name">{user?.name}</h5>
           </div>
 
           <div className="profile-container-2">
             <div className="profile-content-display">
               <div className="profile-user-deatils">
                 <label className="profile-user-title">Full Name</label>
-                <p className="profile-user-subtitle">Sheetal Aily</p>
+                <p className="profile-user-subtitle">{user?.name}</p>
               </div>
               <div className="profile-user-deatils">
                 <label className="profile-user-title">Phone Number</label>
-                <p className="profile-user-subtitle">9098765432</p>
+                <p className="profile-user-subtitle">{user?.phone}</p>
               </div>
               <div className="profile-user-deatils">
                 <label className="profile-user-title">Email ID</label>
-                <p className="profile-user-subtitle">sheetal@gmail.com</p>
+                <p className="profile-user-subtitle">{user?.email}</p>
               </div>
             </div>
 
@@ -63,9 +63,7 @@ const LProfile = () => {
               <div className="profile-user-deatils">
                 <label className="profile-user-title">Address</label>
                 <p className="profile-user-subtitle">
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Corporis tenetur Lorem, ipsum dolor sit amet consectetur
-                  adipisicing elit. Corporis tenetur
+                  {user?.address}, {user?.address2}
                 </p>
               </div>
             </div>
