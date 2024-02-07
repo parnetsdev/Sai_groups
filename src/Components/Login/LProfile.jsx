@@ -9,6 +9,8 @@ import { FaEye } from "react-icons/fa";
 import "./Styles/LProfile.css";
 
 const LProfile = () => {
+  const user = JSON.parse(sessionStorage.getItem("user"));
+
   const [PasswordShow, setPasswordShow] = useState(false);
   const [confirmpasswordshow, setconfirmpasswordshow] = useState(false);
 
@@ -31,7 +33,7 @@ const LProfile = () => {
       
           <div className="profile-container text-center">
             <img
-              src="./img/gallery-img-5.webp"
+              src={`https://`}
               alt="Admin"
               className="mt-5"
               width="70%"

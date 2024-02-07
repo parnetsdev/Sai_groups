@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import axios from "axios";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 import { Button, Modal, Table } from "react-bootstrap";
 import { AiFillEye } from "react-icons/ai";
 
@@ -7,6 +9,44 @@ const LBookedDetails = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [bookings, setBooking] = useState([]);
+
+  const [allbooked, setAllBooked] = useState([]);
+  // console.log('allboked', allbooked);
+  // const Allbookedseat = allbooked
+  //   ?.filter(ele => ele?.Bookingdate === date1)
+  //   ?.map(item => item?.SeatNo);
+
+  const Allbooking = async (item) => {
+    let res = await axios.get(
+      "http://saisathish.info/api/Admin/getAllBooking/"
+    );
+    if (res.status === 200) {
+      setAllBooked(res.data.success);
+    }
+  };
+
+
+
+  useEffect(() => {
+    Allbooking();
+  }, []);
+
+    // const getUserId = async (id) => {
+    //   try {
+    //     await axios
+    //       .get("http://saisathish.info/api/Admin/getBookingBy/" + id)
+    //       .then((res) => {
+    //         if ((res.status = 200)) {
+    //           setBooking(res.data.success);
+    //         }
+    //       });
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
+  //   ;
   return (
     <div>
       <div className="container mt-3" style={{ backgroundColor: "white" }}>
@@ -38,28 +78,39 @@ const LBookedDetails = () => {
               </thead>
 
               <tbody>
-                <tr>
-                  <td>1.</td>
-                  <td>sdsfdf</td>
-                  <td>sdfsdf</td>
-                  <td>sdfsd</td>
-                  <td>sheetal</td>
-                  <td>42343</td>
-                  <td>12-07-2001</td>
-                  <td>ddfsdf</td>
+                {allbooked?.map((item, i) => {
+                  const data = `${item?.SeatNo}`;
+                  return (
+                    <tr key={i}>
+                      <td>{i + 1}</td>
+                      <td>{item?.userId?.partnerId}</td>
+                      <td>{item?.userId?.businessname}</td>
+                      <td>{item?.email}</td>
+                      <td>{item?.name}</td>
+                      <td>{item?.mobile}</td>
+                      <td>{item?.Bookingdate}</td>
+                      <td>{data}</td>
 
-                  <td>₹34234</td>
-                  <td>₹2343</td>
-                  <td>234sdfsdfsd</td>
-                  <td>12-07-2001</td>
-                  <td>
-                    <AiFillEye
-                      style={{ fontSize: "20px", color: "blue" }}
-                      onClick={handleShow}
-                    />
-                  </td>
-                  <td>Pending</td>
-                </tr>
+                      <td>₹{item?.amount}</td>
+                      <td>₹{item?.amount}</td>
+                      <td>{item?.PayId}</td>
+                      <td>{moment(item?.createdAt).format("lll")}</td>
+                      <td>
+                      
+                        <AiFillEye
+                          style={{ fontSize: "20px", color: "blue" }}
+                          onClick={() => {
+                            // getUserId(item?._id);
+                            handleShow(item?._id);
+                            setBooking(item);
+                          }}
+                        />
+                        
+                      </td>
+                      <td>Pending</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </Table>
           </div>
@@ -99,7 +150,7 @@ const LBookedDetails = () => {
             <tbody>
               <tr>
                 <td>1</td>
-                <td>sdasdasd</td>
+                <td>{bookings?.name}</td>
                 <td>
                   <div>
                     <Table responsive bordered>
@@ -115,21 +166,25 @@ const LBookedDetails = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>12312</td>
-                          <td>asdasd</td>
-                          <td>27</td>
-                          <td>200</td>
-                          <td>sdfsdf</td>
-                        </tr>
+                      {bookings?.customerdetails?.map((ele) => {
+                          return (
+                            <tr key={ele?._id}>
+                              <td>{ele?._id}</td>
+                              <td>{ele?.name}</td>
+                              <td>{ele?.seatno}</td>
+                              <td>{ele?.age}</td>
+                              <td>{ele?.gender}</td>
+                            </tr>
+                       );
+                      })}
                       </tbody>
                     </Table>
                   </div>
                 </td>
 
-                <td>sdfsdf</td>
-                <td>2323</td>
-                <td>Pending</td>
+                <td>{bookings?.email}</td>
+                <td>{bookings?.Total}</td>
+                <td>{bookings?.Status}</td>
               </tr>
             </tbody>
           </Table>

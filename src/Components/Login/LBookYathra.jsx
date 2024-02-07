@@ -8,9 +8,20 @@ const LBookYathra = () => {
   const [Aeroplane, setAeroplane] = useState(false);
 
   const [show, setShow] = useState();
+  const [show1, setShow1] = useState();
+  const [show2, setShow2] = useState();
+  const [show3, setShow3] = useState();
+
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleClose1 = () => setShow1(false);
+  const handleShow1 = () => setShow1(true);
+  const handleClose2 = () => setShow2(false);
+  const handleShow2 = () => setShow2(true);
+  const handleClose3 = () => setShow3(false);
+  const handleShow3 = () => setShow3(true);
+
 
   return (
     <div>
@@ -482,7 +493,7 @@ const LBookYathra = () => {
                       <h6>Day 4 Night @ Tuljapur (3 star hotel)</h6>
                     </div>
                     <div style={{ paddingTop: "4rem" }}>
-                      <button className="btn btn-success" onClick={handleShow}>
+                      <button className="btn btn-success" onClick={handleShow1}>
                         View Seats
                       </button>
                     </div>
@@ -628,6 +639,11 @@ const LBookYathra = () => {
                         </div>
                     </div>
                 </div>
+                <div className="row mt-3">
+                  <div className="col-md-12 text-center">
+                    <p style={{backgroundColor:"#08080845",padding:"10px",borderRadius:"3px"}}>₹ 0, For Seat No()</p>
+                  </div>
+                </div>
             </div>
         </Modal.Body>
 
@@ -638,8 +654,253 @@ const LBookYathra = () => {
           >
             Close
           </Button>
-          <Button variant="success" onClick={handleClose}>
+          <Button variant="success" onClick={handleShow2}>
             Book Now
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal size="md" show={show1} onHide={handleClose1}>
+        <Modal.Header closeButton style={{backgroundColor:"#69CC4D",color:"white"}}>
+          <Modal.Title>
+            <h4>Select Your Choice of Seat</h4>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-4">
+                        <div className="row">
+                            <div className="col-md-1"  style={{backgroundColor:"#FF6767",borderRadius:"50%"}}>
+                                <div>
+                                    <p className="ms-3"><b>Selected</b></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-md-4">
+                        <div className="row">
+                            <div className="col-md-1"  style={{backgroundColor:"#139c49",borderRadius:"50%"}}>
+                                <div>
+                                    <p className="ms-3"><b>Available</b></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-md-4">
+                        <div className="row">
+                            <div className="col-md-1"  style={{backgroundColor:"#4F4F4F",borderRadius:"50%"}}>
+                                <div>
+                                    <p className="ms-3"><b>Booked</b></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="container mt-3 p-4">
+                <div className="row">
+                    <div className="col-md-12 d-flex justify-content-end">
+                        <div className="d-flex gap-3" >
+                            <p className="seats">3</p>
+                            <p className="seats">4</p>
+                        </div>
+                    </div>
+                    <div className="col-md-12 mt-2">
+                        <div style={{display:"flex",justifyContent:"space-between"}}>
+                        <div className="d-flex gap-3" >
+                            <p className="seats">1</p>
+                            <p className="seats">2</p>
+                        </div>
+                        <div className="d-flex gap-3" >
+                            <p className="seats">7</p>
+                            <p className="seats">8</p>
+                        </div>
+                        </div>
+                    </div>
+                    <div className="col-md-12 mt-2">
+                        <div style={{display:"flex",justifyContent:"space-between"}}>
+                        <div className="d-flex gap-3" >
+                            <p className="seats">5</p>
+                            <p className="seats">6</p>
+                        </div>
+                        <div className="d-flex gap-3" >
+                            <p className="seats">11</p>
+                            <p className="seats">12</p>
+                        </div>
+                        </div>
+                    </div>
+                    <div className="col-md-12 mt-2">
+                        <div style={{display:"flex",justifyContent:"space-between"}}>
+                        <div className="d-flex gap-3" >
+                            <p className="seats">9</p>
+                            <p className="seats">10</p>
+                        </div>
+                        <div className="d-flex gap-3" >
+                            <p className="seats">13</p>
+                            <p className="seats">14</p>
+                        </div>
+                        </div>
+                    </div>
+                    <div className="col-md-12 mt-2">
+                        <div style={{display:"flex",justifyContent:"space-between"}}>
+                        <div className="d-flex gap-3" >
+                            <p className="seats">15</p>
+                            <p className="seats">16</p>
+                        </div>
+                        <div className="d-flex gap-3" >
+                            <p className="seats">17</p>
+                            <p className="seats">18</p>
+                        </div>
+                        </div>
+                    </div>
+                    <div className="col-md-12 mt-2">
+                        <div style={{display:"flex",justifyContent:"space-between"}}>
+                        <div className="d-flex gap-3" >
+                            <p className="seats">19</p>
+                            <p className="seats">20</p>
+                        </div>
+                        <div className="d-flex gap-3" >
+                            <p className="seats">21</p>
+                            <p className="seats">22</p>
+                        </div>
+                        </div>
+                    </div>
+                    <div className="col-md-12 mt-2">
+                        <div style={{display:"flex",justifyContent:"space-between"}}>
+                        <div className="d-flex gap-3" >
+                            <p className="seats">23</p>
+                            <p className="seats">24</p>
+                        </div>
+                        <div className="d-flex gap-3" >
+                            <p className="seats">25</p>
+                            <p className="seats">26</p>
+                        </div>
+                        </div>
+                    </div>
+                    <div className="col-md-12 mt-2">
+                        <div style={{display:"flex",justifyContent:"space-evenly"}}>
+                        <div className="d-flex gap-3" >
+                            <p className="seats">27</p>
+                            <p className="seats">28</p>
+                            <p className="seats">29</p>
+                            <p className="seats">30</p>
+                            <p className="seats">31</p>
+                        </div>
+                        
+                        </div>
+                    </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-md-12 text-center">
+                    <p style={{backgroundColor:"#08080845",padding:"10px",borderRadius:"3px"}}>₹ 0, For Seat No()</p>
+                  </div>
+                </div>
+            </div>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button
+            style={{ backgroundColor: "#52f310", color: "#ffff" }}
+            onClick={handleClose1}
+          >
+            Close
+          </Button>
+          <Button variant="success" onClick={handleShow3}>
+            Book Now
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal size="md" show={show2} onHide={handleClose2}>
+        <Modal.Header closeButton style={{backgroundColor:"#69CC4D",color:"white"}}>
+          <Modal.Title>
+          <h4>Yathra Traveller Details</h4>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <div className="container">
+               <div className="row">
+                <div className="col-md-12">
+                  <p><b>Seat No: 37</b></p>
+                  <input type="text" className="vi_0" placeholder="Enter Your Name"/>
+                  <input type="text" className="vi_0 mt-2" placeholder="Enter Your Age"/>
+                </div>
+                <div className="col-md-12 mt-4">
+                  <p><b>Contact Details</b></p>
+                  <input type="text" className="vi_0" placeholder="Enter Your Name"/>
+                  <input type="text" className="vi_0 mt-2" placeholder="Enter Your Email"/>
+                  <input type="text" className="vi_0 mt-2" placeholder="Enter Your Number"/>
+                </div>
+                <div className="col-md-12 mt-4">
+                  <p><b>Select Your Pickup location With Time</b></p>
+                  <select name="" id="" className="vi_0">
+                    <option value="">--select Pickup Location--</option>
+                    <option value="">--Jalahalli--</option>
+                    <option value="">--Sarjapur--</option>
+                    <option value="">--Rajajinagar--</option>
+                    <option value="">--Singapura--</option>
+                    <option value="">--Majestic--</option>
+                  </select>
+                </div>
+                <div className="col-md-12 text-center mt-3 d-flex justify-content-between" style={{backgroundColor:"#08080845",padding:"10px",borderRadius:"3px"}}>
+                    <p >Total Amount</p>
+                    <p>₹7800</p>
+                  </div>
+               </div>
+            </div>
+            
+        </Modal.Body>
+
+        <Modal.Footer>
+        
+          <Button variant="success" onClick={handleClose2}>
+           Pay Now
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal size="md" show={show3} onHide={handleClose3}>
+        <Modal.Header closeButton style={{backgroundColor:"#69CC4D",color:"white"}}>
+          <Modal.Title>
+          <h4>Yathra Traveller Details</h4>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <div className="container">
+               <div className="row">
+                <div className="col-md-12">
+                  <p><b>Seat No: 37</b></p>
+                  <input type="text" className="vi_0" placeholder="Enter Your Name"/>
+                  <input type="text" className="vi_0 mt-2" placeholder="Enter Your Age"/>
+                </div>
+                <div className="col-md-12 mt-4">
+                  <p><b>Contact Details</b></p>
+                  <input type="text" className="vi_0" placeholder="Enter Your Name"/>
+                  <input type="text" className="vi_0 mt-2" placeholder="Enter Your Email"/>
+                  <input type="text" className="vi_0 mt-2" placeholder="Enter Your Number"/>
+                </div>
+                <div className="col-md-12 mt-4">
+                  <p><b>Select Your Pickup location With Time</b></p>
+                  <select name="" id="" className="vi_0">
+                    <option value="">--select Pickup Location--</option>
+                    <option value="">--Jalahalli--</option>
+                    <option value="">--Sarjapur--</option>
+                    <option value="">--Rajajinagar--</option>
+                    <option value="">--Singapura--</option>
+                    <option value="">--Majestic--</option>
+                  </select>
+                </div>
+                <div className="col-md-12 text-center mt-3 d-flex justify-content-between" style={{backgroundColor:"#08080845",padding:"10px",borderRadius:"3px"}}>
+                    <p >Total Amount</p>
+                    <p>₹7800</p>
+                  </div>
+               </div>
+            </div>
+            
+        </Modal.Body>
+
+        <Modal.Footer>
+        
+          <Button variant="success" onClick={handleClose3}>
+           Pay Now
           </Button>
         </Modal.Footer>
       </Modal>
