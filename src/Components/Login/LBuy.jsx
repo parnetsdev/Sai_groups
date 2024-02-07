@@ -48,6 +48,44 @@ export default function LBuy() {
       console.log(error);
     }
   };
+
+  // =====================================Add to cart=====================================
+  const [increase, setincrease] = useState(1);
+  const handleIncrease = () => {
+    setincrease(increase + 1);
+  };
+  const Addcart = async (item) => {
+    try {
+      const user = JSON.parse(agentDetails);
+      console.log("kar to rahua", user?._id);
+      const config = {
+        url: "/Addtocart",
+        method: "post",
+        baseURL: "http://saisathish.info/api/Admin",
+        headers: { "content-type": "application/json" },
+        data: {
+          userId: user?._id,
+          productId: item?._id,
+          price: item?.price,
+          quantity: increase,
+        },
+      };
+
+      let res = await axios(config);
+
+      if (res.status === 200) {
+        alert("Add to cart Successfully");
+
+        // navigate('Cart');
+      }
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.error);
+        alert(error.response.data.error);
+      }
+    }
+  };
+
   useEffect(() => {
     if (!agentDetails) {
       return alert("Please login first");
@@ -140,7 +178,12 @@ export default function LBuy() {
               <h6 style={{ fontSize: "3rem" }}>{items?.productName}</h6>
               <p style={{ fontSize: "25px" }}>
                 <b style={{ marginRight: "30px" }}>₹{items?.price}/-</b>
-                <button className="add-to-cart-btn">Add to cart</button>
+                <button
+                  className="add-to-cart-btn"
+                  onClick={() => Addcart(items)}
+                >
+                  Add to cart
+                </button>
               </p>
               <div style={{ marginTop: "25px" }}>
                 <h5 style={{ color: "#F1BE05" }}>About</h5>

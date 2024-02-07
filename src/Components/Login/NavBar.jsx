@@ -166,7 +166,7 @@ const NavBar = () => {
               >
                 <FontAwesomeIcon
                   icon={faCartShopping}
-                  style={{ color: "#7be255" }}
+                  style={{ color: "#3DD065" }}
                 />
               </div>
               <div className="dropdown">

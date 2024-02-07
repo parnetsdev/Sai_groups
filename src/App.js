@@ -58,6 +58,7 @@ import LBuy from "./Components/Login/LBuy";
 import LBookedDetails from "./Components/Login/LBookedDetails";
 import LOrderHistroy from "./Components/Login/LOrderHistroy";
 import LCart from "./Components/Login/LCart";
+import LCheckout from "./Components/Login/LCheckout";
 
 function App() {
   return (
@@ -351,6 +352,17 @@ function App() {
                 <>
                   <NavBar />
                   <LCart />
+                  <LFooter />
+                  <LEnquiry />
+                </>
+              }
+            />
+            <Route
+              path="/LoginCheckout"
+              element={
+                <>
+                  <NavBar />
+                  <LCheckout />
                   <LFooter />
                   <LEnquiry />
                 </>
