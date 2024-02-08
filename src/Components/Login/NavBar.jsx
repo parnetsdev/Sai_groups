@@ -17,6 +17,17 @@ import { FaRegUserCircle } from "react-icons/fa";
 import axios from "axios";
 
 const NavBar = () => {
+  const user =JSON.parse(sessionStorage.getItem("user"));
+
+
+  const logOut = () => {
+    window.location.assign("/login");
+   alert("Successfully Logout");
+  
+   sessionStorage.removeItem("user");
+   
+ };
+
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
 
@@ -186,17 +197,17 @@ const NavBar = () => {
                       height: "30px",
                     }}
                   />
-                  <p>
-                    Sheetal Aily <FontAwesomeIcon icon={faCaretDown} />
+                  <p style={{cursor:"pointer"}}>
+                    {user?.name} <FontAwesomeIcon icon={faCaretDown} />
                   </p>
                 </div>
                 <div
                   class="dropdown-content"
-                  style={{ overflowY: "scroll", height: "99px" }}
+                  style={{ overflowY: "scroll", height: "99px",cursor:"pointer" }}
                 >
                   <a onClick={() => navigate("/LoginProfile")}>Profile</a>
 
-                  <a onClick={() => navigate("/login", {})}>Logout</a>
+                  <a onClick={() => logOut()}>Logout</a>
                 </div>
               </div>
             </div>

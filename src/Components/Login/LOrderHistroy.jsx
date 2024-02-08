@@ -231,7 +231,7 @@ const LOrderHistroy = () => {
         <h4 style={{ textAlign: "center" }}>Booked History</h4>
        
         <Modal.Body>
-        <div className="text-center p-5" id="pdf">
+        <div className="p-5" id="pdf">
           <Row>
             <div
               className="col-lg-12 mb-3"
