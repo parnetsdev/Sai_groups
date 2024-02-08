@@ -5,11 +5,14 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function LCheckout() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const navigate = useNavigate();
 
   const agentDetails = sessionStorage.getItem("user");
   const [addcart, setAddcart] = useState([]);
@@ -81,6 +84,8 @@ export default function LCheckout() {
       console.log(error);
     }
   };
+
+  // ===================== Add Address =====================
 
   const Addaddress = async () => {
     let user = JSON.parse(agentDetails);
@@ -167,6 +172,211 @@ export default function LCheckout() {
       }
     }
   };
+
+  // ===================== Delete Address =====================
+  const deleteaddress = async (_id) => {
+    try {
+      let res = await axios.delete(
+        "http://saisathish.info/api/Admin/deleteaddress/" + _id
+      );
+      if (res.status === 200) {
+        getAddress();
+        alert("Delete Address");
+      }
+    } catch (error) {
+      console.log(error);
+      alert(error.response.data.error);
+    }
+  };
+
+  // =========== online payment===============
+  // var myCurrentDate = new Date();
+  // var date =
+  //   myCurrentDate.getFullYear() +
+  //   "-" +
+  //   (myCurrentDate.getMonth() + 1) +
+  //   "-" +
+  //   myCurrentDate.getDate() +
+  //   "/ " +
+  //   myCurrentDate.getHours() +
+  //   ":" +
+  //   myCurrentDate.getMinutes() +
+  //   ":" +
+  //   myCurrentDate.getSeconds();
+  // const newCurrentDate = date;
+
+  // // const [paymentmethod, setpaymentmethod] = useState('');
+  // const [Payid, setpayid] = useState();
+
+  // const placeorder = async (PaymentId) => {
+  //   let user = JSON.parse(agentDetails);
+  //   if (Object.keys(showAddress).length) {
+  //     // if (!paymentmethod) {
+  //     //   return alert('Please Select The Payment Method');
+  //     // }
+  //     // else
+  //     try {
+  //       const config = {
+  //         url: "/orderproduct",
+  //         method: "post",
+  //         baseURL: "http://saisathish.info/api/Admin",
+  //         headers: { "content-type": "application/json" },
+  //         data: {
+  //           userId: user._id,
+  //           Price: total,
+  //           quantity: "",
+  //           customerorderdatetime: newCurrentDate,
+  //           deliverydate: "",
+  //           Totalamount: total,
+  //           PaymentId: PaymentId,
+  //           PaymentMethod: "Online",
+  //           FName: user?.name,
+  //           Phno: user?.phone,
+  //           email: user?.email,
+
+  //           House: showAddress?.houseno,
+  //           Area: showAddress?.houseno,
+  //           Landmark: showAddress?.village,
+  //           City: showAddress?.city,
+  //           State: showAddress?.state,
+  //           subTotal: total,
+  //           allTotal: total,
+  //           Discount: discount,
+  //           allproduct: allCartData,
+
+  //           Discountproduct: discount,
+  //         },
+  //       };
+  //       await axios(config).then(function (res) {
+  //         if ((res.status = 200)) {
+  //           console.log("success");
+  //           alert("Order Placed Successfully");
+  //           navigate("/Home");
+  //         }
+  //       });
+  //     } catch (error) {
+  //       console.log(error);
+  //       alert("Unable to place Order");
+  //     }
+  //   } else {
+  //     alert("Please Select The Shipping Address");
+  //   }
+  // };
+
+  // const Razorpay = async () => {
+  //   let user = JSON.parse(agentDetails);
+
+  //   if (!Object.keys(getaddress).length) {
+  //     return alert("Please select the shipping address");
+  //   } else if (!checkradio) {
+  //     return alert("Please select the shipping address");
+  //     // } else if (!paymentmethod) {
+  //     //   return alert('Please select the Payment method');
+  //     // } else if (paymentmethod !== 'Online Payment') {
+  //     //   return placeorder();
+  //   } else {
+  //     try {
+  //       var options = {
+  //         key: "rzp_test_5vCRZ6rLM2wGN4",
+  //         amount: total * 100,
+  //         currency: "INR",
+  //         name: "Sai Group",
+  //         description: "Order Amount",
+  //         image: "../logo.png",
+  //         customerId: 237462374,
+  //         handler: function (response) {
+  //           alert(response.razorpay_payment_id);
+  //           placeorder(response.razorpay_payment_id);
+  //         },
+  //         prefill: {
+  //           name: user?.name,
+  //           email: user?.email,
+  //           contact: user?.phone,
+  //         },
+  //       };
+
+  //       RazorpayCheckout.open(options)
+  //         .then((data) => {
+  //           // handle success
+  //           alert(`Success: ${data.razorpay_payment_id}`);
+  //           placeorder(data.razorpay_payment_id);
+  //         })
+  //         .catch((error) => {
+  //           // handle failure
+  //           alert(`Error: ${error.code} | ${error.description}`);
+  //         });
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  // };
+
+  //====================start=================================
+
+  function isDate(val) {
+    // Cross realm comptatible
+    return Object.prototype.toString.call(val) === "[object Date]";
+  }
+
+  function isObj(val) {
+    return typeof val === "object";
+  }
+
+  function stringifyValue(val) {
+    if (isObj(val) && !isDate(val)) {
+      return JSON.stringify(val);
+    } else {
+      return val;
+    }
+  }
+
+  function buildForm({ action, params }) {
+    const form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", action);
+
+    Object.keys(params).forEach((key) => {
+      const input = document.createElement("input");
+      input.setAttribute("type", "hidden");
+      input.setAttribute("name", key);
+      input.setAttribute("value", stringifyValue(params[key]));
+      form.appendChild(input);
+    });
+
+    return form;
+  }
+
+  function post(details) {
+    const form = buildForm(details);
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
+  }
+
+  const getData = (data) => {
+    return fetch(`http://saisathish.info/api/paytmMadiWeb`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .catch((err) => console.log(err));
+  };
+
+  const makePayment = () => {
+    getData({ amount: 500, email: "abc@gmail.com" }).then((response) => {
+      var information = {
+        action: "https://securegw-stage.paytm.in/order/process",
+        params: response,
+      };
+      post(information);
+    });
+  };
+
+  //====================finish=================================
 
   useEffect(() => {
     if (!agentDetails) {
@@ -259,6 +469,9 @@ export default function LCheckout() {
                           </h6>
                           <div style={{ marginLeft: "20px" }}>
                             <MdDeleteOutline
+                              onClick={() => {
+                                deleteaddress(item?._id);
+                              }}
                               style={{ color: "red", fontSize: "27px" }}
                             />
                           </div>
@@ -292,7 +505,7 @@ export default function LCheckout() {
               height: "40px",
               borderRadius: "10px",
             }}
-            // onClick={() => handleShow()}
+            onClick={() => makePayment()}
           >
             Place Order
           </button>

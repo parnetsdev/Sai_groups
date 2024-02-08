@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaPlaneDeparture } from "react-icons/fa";
 import { TbBus } from "react-icons/tb";
 import "./Styles/LBookYathra.css";
 import { Button, Modal, Table } from "react-bootstrap";
+import axios from "axios";
 const LBookYathra = () => {
+  const agentDetails = sessionStorage.getItem("user");
   const [bus, setbus] = useState(true);
   const [Aeroplane, setAeroplane] = useState(false);
 
@@ -11,7 +13,6 @@ const LBookYathra = () => {
   const [show1, setShow1] = useState();
   const [show2, setShow2] = useState();
   const [show3, setShow3] = useState();
-
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -22,6 +23,62 @@ const LBookYathra = () => {
   const handleClose3 = () => setShow3(false);
   const handleShow3 = () => setShow3(true);
 
+  // =======================================================================
+  // const [acc, setacc] = useState(true);
+  // const [acc1, setacc1] = useState(false);
+  // const onPress1 = () => {
+  //   setacc(true);
+  //   setacc1(false);
+  // };
+  // const onPress2 = () => {
+  //   setacc1(true);
+  //   setacc(false);
+  // };
+
+  const [data, setData] = useState([]);
+  const [loading, setloading] = useState(false);
+  // console.log(data, 'Data');
+  const getPackage = async () => {
+    setloading(true);
+    try {
+      await axios
+        .get("http://saisathish.info/api/v1/admin/getallpackage")
+        .then((res) => {
+          if (res.status == 200) {
+            setData(res.data.success);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setloading(false);
+    }
+  };
+
+  const [selectedValue, setSelectedValue] = useState("");
+  const [selectedValue1, setSelectedValue1] = useState("");
+  const [tripdates, setTripdates] = useState([]);
+  const currentDate = new Date();
+  const getTripdate = async () => {
+    try {
+      let res = await axios.get("http://saisathish.info/api/v1/getalltripdate");
+
+      if (res.status == 200) {
+        setTripdates(res.data.success);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (!agentDetails) {
+      return alert("Please login first");
+    } else {
+      getPackage();
+      getTripdate();
+    }
+  }, [agentDetails]);
 
   return (
     <div>
@@ -82,7 +139,7 @@ const LBookYathra = () => {
                   alt=""
                   style={{ width: "50%", height: "50%" }}
                 />
-                <p> Aeroplane</p>
+                <p> Air Package</p>
               </div>
             </div>
           </div>
@@ -90,201 +147,263 @@ const LBookYathra = () => {
       </div>
       {bus ? (
         <>
-          <div className="container">
-            <div
-              className="row mt-2"
-              style={{
-                backgroundColor: "#DDDDDD",
-                padding: "10px",
-                borderRadius: "15px",
-              }}
-            >
-              <div className="col-md-12 text-center">
-                <h2>
-                  <b style={{ color: "#69CC4D" }}>BUS PACKAGE</b>
-                </h2>
-                <h4>
-                  <b>5 Nights and 5 Days Shiridi Yathra</b> (₹7800/person)
-                </h4>
-                <h5>
-                  <b>Date of Journey</b> (Every week Wednesday){" "}
-                </h5>
-              </div>
-              <div className="col-md-12 text-center">
-                <label htmlFor="">Select Date</label>
-                <br />
-                <select name="" id="" className="vi_00">
-                  <option value="">--Select Date--</option>
-                  <option value="">12-7-2001</option>
-                  <option value="">13-7-2001</option>
-                  <option value="">14-7-2001</option>
-                  <option value="">15-7-2001</option>
-                  <option value="">16-7-2001</option>
-                  <option value="">17-7-2001</option>
-                  <option value="">18-7-2001</option>
-                  <option value="">19-7-2001</option>
-                  <option value="">20-7-2001</option>
-                </select>
-              </div>
-            </div>
-            <div
-              className="row"
-              style={{
-                backgroundColor: "#DDDDDD",
-                padding: "10px",
-                borderRadius: "15px",
-              }}
-            >
-              <div className="col-md-5">
-                <div className="contact-form-section">
-                  <div className="form-container">
-                    <div className="faq">
-                      <h2>TOUR ITINEARARY</h2>
-                      <ul className="accordian" style={{ padding: "0px" }}>
-                        <li>
-                          <input type="radio" name="accordian" id="first" />
-                          <label htmlFor="first">Day 1</label>
-                          <div className="content">
-                            <p>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit, sed do eiusmod tempor incididunt ut labore
-                              et dolore magna aliqua
-                            </p>
-                          </div>
-                        </li>
+          {data
+            ?.filter((p) => p.packagetype === "Bus Package")
+            .map((ele) => {
+              return (
+                <div className="container">
+                  <div
+                    className="row mt-2"
+                    style={{
+                      backgroundColor: "#DDDDDD",
+                      padding: "10px",
+                      borderRadius: "15px",
+                    }}
+                  >
+                    <div className="col-md-12 text-center">
+                      <h2>
+                        <b style={{ color: "#69CC4D" }}>BUS PACKAGE</b>
+                      </h2>
+                      <h4>
+                        <b>{ele?.packagename}</b> ( ₹{ele?.price}/person)
+                      </h4>
+                      <h5>
+                        <b>Date of Journey</b> ({ele?.journeytitle}){" "}
+                      </h5>
+                    </div>
+                    <div className="col-md-12 text-center">
+                      <label htmlFor="">Select Date</label>
+                      <br />
+                      <select
+                        name=""
+                        id=""
+                        className="vi_00"
+                        onChange={(e) => setSelectedValue(e.target.value)}
+                      >
+                        <option value="">--Select Date--</option>
+                        {tripdates
+                          ?.filter((a) => a?.triptype == ele?.packagetype)[0]
+                          ?.tripdates?.filter((element) => {
+                            const tripDate = new Date(element?.startdate);
 
-                        <li>
-                          <input type="radio" name="accordian" id="second" />
-                          <label htmlFor="second">Day 2</label>
-                          <div className="content">
-                            <p>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit, sed do eiusmod tempor incididunt ut labore
-                              et dolore magna aliqua
-                            </p>
-                          </div>
-                        </li>
+                            return tripDate >= currentDate;
+                          })
+                          ?.map((element) => {
+                            return (
+                              <option value={element?.startdate}>
+                                {element?.startdate}
+                              </option>
+                            );
+                          })}
+                      </select>
+                    </div>
+                  </div>
+                  <div
+                    className="row"
+                    style={{
+                      backgroundColor: "#DDDDDD",
+                      padding: "10px",
+                      borderRadius: "15px",
+                    }}
+                  >
+                    <div className="col-md-5">
+                      <div className="contact-form-section">
+                        <div className="form-container">
+                          <div className="faq">
+                            <h2>TOUR ITINEARARY</h2>
+                            <ul
+                              className="accordian"
+                              style={{ padding: "0px" }}
+                            >
+                              {ele?.itinerary?.map((val, i) => {
+                                // const data = val?.text;
+                                return (
+                                  <li>
+                                    <input
+                                      type="radio"
+                                      name="accordian"
+                                      id="first"
+                                    />
+                                    <label htmlFor="first">
+                                      {val?.dayName}
+                                    </label>
+                                    <div className="content">
+                                      <p>
+                                        Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing elit, sed do eiusmod tempor
+                                        incididunt ut labore et dolore magna
+                                        aliqua
+                                      </p>
+                                    </div>
+                                  </li>
+                                );
+                              })}
 
-                        <li>
-                          <input type="radio" name="accordian" id="third" />
-                          <label htmlFor="third">Day 3</label>
-                          <div className="content">
-                            <p>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit, sed do eiusmod tempor incididunt ut labore
-                              et dolore magna aliqua
-                            </p>
-                          </div>
-                        </li>
+                              {/* <li>
+                                <input
+                                  type="radio"
+                                  name="accordian"
+                                  id="second"
+                                />
+                                <label htmlFor="second">Day 2</label>
+                                <div className="content">
+                                  <p>
+                                    Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua
+                                  </p>
+                                </div>
+                              </li>
 
-                        <li>
-                          <input type="radio" name="accordian" id="fourth" />
-                          <label htmlFor="fourth">Day 4</label>
-                          <div className="content">
-                            <p>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit, sed do eiusmod tempor incididunt ut labore
-                              et dolore magna aliqua
-                            </p>
-                          </div>
-                        </li>
+                              <li>
+                                <input
+                                  type="radio"
+                                  name="accordian"
+                                  id="third"
+                                />
+                                <label htmlFor="third">Day 3</label>
+                                <div className="content">
+                                  <p>
+                                    Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua
+                                  </p>
+                                </div>
+                              </li>
 
-                        <li>
-                          <input type="radio" name="accordian" id="fifth" />
-                          <label htmlFor="fifth">Day 5</label>
-                          <div className="content">
-                            <p>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit, sed do eiusmod tempor incididunt ut labore
-                              et dolore magna aliqua
-                            </p>
-                          </div>
-                        </li>
+                              <li>
+                                <input
+                                  type="radio"
+                                  name="accordian"
+                                  id="fourth"
+                                />
+                                <label htmlFor="fourth">Day 4</label>
+                                <div className="content">
+                                  <p>
+                                    Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua
+                                  </p>
+                                </div>
+                              </li>
 
-                        <li>
-                          <input type="radio" name="accordian" id="sixth" />
-                          <label htmlFor="sixth">Day 6</label>
-                          <div className="content">
-                            <p>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit, sed do eiusmod tempor incididunt ut labore
-                              et dolore magna aliqua
-                            </p>
+                              <li>
+                                <input
+                                  type="radio"
+                                  name="accordian"
+                                  id="fifth"
+                                />
+                                <label htmlFor="fifth">Day 5</label>
+                                <div className="content">
+                                  <p>
+                                    Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua
+                                  </p>
+                                </div>
+                              </li>
+
+                              <li>
+                                <input
+                                  type="radio"
+                                  name="accordian"
+                                  id="sixth"
+                                />
+                                <label htmlFor="sixth">Day 6</label>
+                                <div className="content">
+                                  <p>
+                                    Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna aliqua
+                                  </p>
+                                </div>
+                              </li> */}
+                            </ul>
                           </div>
-                        </li>
-                      </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-7">
+                      <div className="contact-form-section">
+                        <div className="faq">
+                          <h2>Menu Chart</h2>
+                          <div>
+                            <Table bordered>
+                              <thead bordered>
+                                <th>Day</th>
+                                <th>Morning</th>
+                                <th>Afternoon</th>
+                                <th>Evening</th>
+                                <th>Night</th>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>Day 1</td>
+                                  <td>Uppitt,kesaribath & coffee,tea</td>
+                                  <td>
+                                    Rice Sambar,buttermilk,palya with pickle
+                                  </td>
+                                  <td>Chilli Bajji ,Coffee & Tea</td>
+                                  <td>Anna Rasam Curd Palya & Pickle</td>
+                                </tr>{" "}
+                                <tr>
+                                  <td>Day 1</td>
+                                  <td>Uppitt,kesaribath & coffee,tea</td>
+                                  <td>
+                                    Rice Sambar,buttermilk,palya with pickle
+                                  </td>
+                                  <td>Chilli Bajji ,Coffee & Tea</td>
+                                  <td>Anna Rasam Curd Palya & Pickle</td>
+                                </tr>{" "}
+                                <tr>
+                                  <td>Day 1</td>
+                                  <td>Uppitt,kesaribath & coffee,tea</td>
+                                  <td>
+                                    Rice Sambar,buttermilk,palya with pickle
+                                  </td>
+                                  <td>Chilli Bajji ,Coffee & Tea</td>
+                                  <td>Anna Rasam Curd Palya & Pickle</td>
+                                </tr>{" "}
+                                <tr>
+                                  <td>Day 1</td>
+                                  <td>Uppitt,kesaribath & coffee,tea</td>
+                                  <td>
+                                    Rice Sambar,buttermilk,palya with pickle
+                                  </td>
+                                  <td>Chilli Bajji ,Coffee & Tea</td>
+                                  <td>Anna Rasam Curd Palya & Pickle</td>
+                                </tr>
+                              </tbody>
+                            </Table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-12 p-4 d-flex justify-content-evenly">
+                      {/* <div className=""> */}
+                      <div>
+                        <h4>
+                          <b>Lodging Details</b>
+                        </h4>
+                        <h6>Day 1 Night @ Tuljapur (3 star hotel)</h6>
+                        <h6>Day 2 Night @ Tuljapur (3 star hotel)</h6>
+                        <h6>Day 3 Night @ Tuljapur (3 star hotel)</h6>
+                        <h6>Day 4 Night @ Tuljapur (3 star hotel)</h6>
+                      </div>
+                      <div style={{ paddingTop: "4rem" }}>
+                        <button
+                          className="btn btn-success"
+                          onClick={handleShow}
+                        >
+                          View Seats
+                        </button>
+                      </div>
+                      {/* </div> */}
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-md-7">
-                <div className="contact-form-section">
-                  <div className="faq">
-                    <h2>Menu Chart</h2>
-                    <div>
-                      <Table bordered>
-                        <thead bordered>
-                          <th>Day</th>
-                          <th>Morning</th>
-                          <th>Afternoon</th>
-                          <th>Evening</th>
-                          <th>Night</th>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Day 1</td>
-                            <td>Uppitt,kesaribath & coffee,tea</td>
-                            <td>Rice Sambar,buttermilk,palya with pickle</td>
-                            <td>Chilli Bajji ,Coffee & Tea</td>
-                            <td>Anna Rasam Curd Palya & Pickle</td>
-                          </tr>{" "}
-                          <tr>
-                            <td>Day 1</td>
-                            <td>Uppitt,kesaribath & coffee,tea</td>
-                            <td>Rice Sambar,buttermilk,palya with pickle</td>
-                            <td>Chilli Bajji ,Coffee & Tea</td>
-                            <td>Anna Rasam Curd Palya & Pickle</td>
-                          </tr>{" "}
-                          <tr>
-                            <td>Day 1</td>
-                            <td>Uppitt,kesaribath & coffee,tea</td>
-                            <td>Rice Sambar,buttermilk,palya with pickle</td>
-                            <td>Chilli Bajji ,Coffee & Tea</td>
-                            <td>Anna Rasam Curd Palya & Pickle</td>
-                          </tr>{" "}
-                          <tr>
-                            <td>Day 1</td>
-                            <td>Uppitt,kesaribath & coffee,tea</td>
-                            <td>Rice Sambar,buttermilk,palya with pickle</td>
-                            <td>Chilli Bajji ,Coffee & Tea</td>
-                            <td>Anna Rasam Curd Palya & Pickle</td>
-                          </tr>
-                        </tbody>
-                      </Table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-12 p-4 d-flex justify-content-evenly">
-                {/* <div className=""> */}
-                <div>
-                  <h4>
-                    <b>Lodging Details</b>
-                  </h4>
-                  <h6>Day 1 Night @ Tuljapur (3 star hotel)</h6>
-                  <h6>Day 2 Night @ Tuljapur (3 star hotel)</h6>
-                  <h6>Day 3 Night @ Tuljapur (3 star hotel)</h6>
-                  <h6>Day 4 Night @ Tuljapur (3 star hotel)</h6>
-                </div>
-                <div style={{ paddingTop: "4rem" }}>
-                  <button className="btn btn-success" onClick={handleShow}>
-                    View Seats
-                  </button>
-                </div>
-                {/* </div> */}
-              </div>
-            </div>
-          </div>
+              );
+            })}
         </>
       ) : (
         <>
@@ -509,142 +628,181 @@ const LBookYathra = () => {
       )}
 
       <Modal size="md" show={show} onHide={handleClose}>
-        <Modal.Header closeButton style={{backgroundColor:"#69CC4D",color:"white"}}>
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "#69CC4D", color: "white" }}
+        >
           <Modal.Title>
             <h4>Select Your Choice of Seat</h4>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <div className="container">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-4">
                 <div className="row">
-                    <div className="col-md-4">
-                        <div className="row">
-                            <div className="col-md-1"  style={{backgroundColor:"#FF6767",borderRadius:"50%"}}>
-                                <div>
-                                    <p className="ms-3"><b>Selected</b></p>
-                                </div>
-                            </div>
-                        </div>
+                  <div
+                    className="col-md-1"
+                    style={{ backgroundColor: "#FF6767", borderRadius: "50%" }}
+                  >
+                    <div>
+                      <p className="ms-3">
+                        <b>Selected</b>
+                      </p>
                     </div>
-                    <div className="col-md-4">
-                        <div className="row">
-                            <div className="col-md-1"  style={{backgroundColor:"#139c49",borderRadius:"50%"}}>
-                                <div>
-                                    <p className="ms-3"><b>Available</b></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-4">
-                        <div className="row">
-                            <div className="col-md-1"  style={{backgroundColor:"#4F4F4F",borderRadius:"50%"}}>
-                                <div>
-                                    <p className="ms-3"><b>Booked</b></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="container mt-3 p-4">
-                <div className="row">
-                    <div className="col-md-12 d-flex justify-content-end">
-                        <div className="d-flex gap-3" >
-                            <p className="seats">3</p>
-                            <p className="seats">4</p>
-                        </div>
-                    </div>
-                    <div className="col-md-12 mt-2">
-                        <div style={{display:"flex",justifyContent:"space-between"}}>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">1</p>
-                            <p className="seats">2</p>
-                        </div>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">7</p>
-                            <p className="seats">8</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className="col-md-12 mt-2">
-                        <div style={{display:"flex",justifyContent:"space-between"}}>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">5</p>
-                            <p className="seats">6</p>
-                        </div>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">11</p>
-                            <p className="seats">12</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className="col-md-12 mt-2">
-                        <div style={{display:"flex",justifyContent:"space-between"}}>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">9</p>
-                            <p className="seats">10</p>
-                        </div>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">13</p>
-                            <p className="seats">14</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className="col-md-12 mt-2">
-                        <div style={{display:"flex",justifyContent:"space-between"}}>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">15</p>
-                            <p className="seats">16</p>
-                        </div>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">17</p>
-                            <p className="seats">18</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className="col-md-12 mt-2">
-                        <div style={{display:"flex",justifyContent:"space-between"}}>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">19</p>
-                            <p className="seats">20</p>
-                        </div>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">21</p>
-                            <p className="seats">22</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className="col-md-12 mt-2">
-                        <div style={{display:"flex",justifyContent:"space-between"}}>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">23</p>
-                            <p className="seats">24</p>
-                        </div>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">25</p>
-                            <p className="seats">26</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className="col-md-12 mt-2">
-                        <div style={{display:"flex",justifyContent:"space-evenly"}}>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">27</p>
-                            <p className="seats">28</p>
-                            <p className="seats">29</p>
-                            <p className="seats">30</p>
-                            <p className="seats">31</p>
-                        </div>
-                        
-                        </div>
-                    </div>
-                </div>
-                <div className="row mt-3">
-                  <div className="col-md-12 text-center">
-                    <p style={{backgroundColor:"#08080845",padding:"10px",borderRadius:"3px"}}>₹ 0, For Seat No()</p>
                   </div>
                 </div>
+              </div>
+              <div className="col-md-4">
+                <div className="row">
+                  <div
+                    className="col-md-1"
+                    style={{ backgroundColor: "#139c49", borderRadius: "50%" }}
+                  >
+                    <div>
+                      <p className="ms-3">
+                        <b>Available</b>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="row">
+                  <div
+                    className="col-md-1"
+                    style={{ backgroundColor: "#4F4F4F", borderRadius: "50%" }}
+                  >
+                    <div>
+                      <p className="ms-3">
+                        <b>Booked</b>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+          <div className="container mt-3 p-4">
+            <div className="row">
+              <div className="col-md-12 d-flex justify-content-end">
+                <div className="d-flex gap-3">
+                  <p className="seats">3</p>
+                  <p className="seats">4</p>
+                </div>
+              </div>
+              <div className="col-md-12 mt-2">
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div className="d-flex gap-3">
+                    <p className="seats">1</p>
+                    <p className="seats">2</p>
+                  </div>
+                  <div className="d-flex gap-3">
+                    <p className="seats">7</p>
+                    <p className="seats">8</p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mt-2">
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div className="d-flex gap-3">
+                    <p className="seats">5</p>
+                    <p className="seats">6</p>
+                  </div>
+                  <div className="d-flex gap-3">
+                    <p className="seats">11</p>
+                    <p className="seats">12</p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mt-2">
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div className="d-flex gap-3">
+                    <p className="seats">9</p>
+                    <p className="seats">10</p>
+                  </div>
+                  <div className="d-flex gap-3">
+                    <p className="seats">13</p>
+                    <p className="seats">14</p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mt-2">
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div className="d-flex gap-3">
+                    <p className="seats">15</p>
+                    <p className="seats">16</p>
+                  </div>
+                  <div className="d-flex gap-3">
+                    <p className="seats">17</p>
+                    <p className="seats">18</p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mt-2">
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div className="d-flex gap-3">
+                    <p className="seats">19</p>
+                    <p className="seats">20</p>
+                  </div>
+                  <div className="d-flex gap-3">
+                    <p className="seats">21</p>
+                    <p className="seats">22</p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mt-2">
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div className="d-flex gap-3">
+                    <p className="seats">23</p>
+                    <p className="seats">24</p>
+                  </div>
+                  <div className="d-flex gap-3">
+                    <p className="seats">25</p>
+                    <p className="seats">26</p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mt-2">
+                <div
+                  style={{ display: "flex", justifyContent: "space-evenly" }}
+                >
+                  <div className="d-flex gap-3">
+                    <p className="seats">27</p>
+                    <p className="seats">28</p>
+                    <p className="seats">29</p>
+                    <p className="seats">30</p>
+                    <p className="seats">31</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row mt-3">
+              <div className="col-md-12 text-center">
+                <p
+                  style={{
+                    backgroundColor: "#08080845",
+                    padding: "10px",
+                    borderRadius: "3px",
+                  }}
+                >
+                  ₹ 0, For Seat No()
+                </p>
+              </div>
+            </div>
+          </div>
         </Modal.Body>
 
         <Modal.Footer>
@@ -660,142 +818,181 @@ const LBookYathra = () => {
         </Modal.Footer>
       </Modal>
       <Modal size="md" show={show1} onHide={handleClose1}>
-        <Modal.Header closeButton style={{backgroundColor:"#69CC4D",color:"white"}}>
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "#69CC4D", color: "white" }}
+        >
           <Modal.Title>
             <h4>Select Your Choice of Seat</h4>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <div className="container">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-4">
                 <div className="row">
-                    <div className="col-md-4">
-                        <div className="row">
-                            <div className="col-md-1"  style={{backgroundColor:"#FF6767",borderRadius:"50%"}}>
-                                <div>
-                                    <p className="ms-3"><b>Selected</b></p>
-                                </div>
-                            </div>
-                        </div>
+                  <div
+                    className="col-md-1"
+                    style={{ backgroundColor: "#FF6767", borderRadius: "50%" }}
+                  >
+                    <div>
+                      <p className="ms-3">
+                        <b>Selected</b>
+                      </p>
                     </div>
-                    <div className="col-md-4">
-                        <div className="row">
-                            <div className="col-md-1"  style={{backgroundColor:"#139c49",borderRadius:"50%"}}>
-                                <div>
-                                    <p className="ms-3"><b>Available</b></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-4">
-                        <div className="row">
-                            <div className="col-md-1"  style={{backgroundColor:"#4F4F4F",borderRadius:"50%"}}>
-                                <div>
-                                    <p className="ms-3"><b>Booked</b></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="container mt-3 p-4">
-                <div className="row">
-                    <div className="col-md-12 d-flex justify-content-end">
-                        <div className="d-flex gap-3" >
-                            <p className="seats">3</p>
-                            <p className="seats">4</p>
-                        </div>
-                    </div>
-                    <div className="col-md-12 mt-2">
-                        <div style={{display:"flex",justifyContent:"space-between"}}>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">1</p>
-                            <p className="seats">2</p>
-                        </div>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">7</p>
-                            <p className="seats">8</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className="col-md-12 mt-2">
-                        <div style={{display:"flex",justifyContent:"space-between"}}>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">5</p>
-                            <p className="seats">6</p>
-                        </div>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">11</p>
-                            <p className="seats">12</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className="col-md-12 mt-2">
-                        <div style={{display:"flex",justifyContent:"space-between"}}>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">9</p>
-                            <p className="seats">10</p>
-                        </div>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">13</p>
-                            <p className="seats">14</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className="col-md-12 mt-2">
-                        <div style={{display:"flex",justifyContent:"space-between"}}>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">15</p>
-                            <p className="seats">16</p>
-                        </div>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">17</p>
-                            <p className="seats">18</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className="col-md-12 mt-2">
-                        <div style={{display:"flex",justifyContent:"space-between"}}>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">19</p>
-                            <p className="seats">20</p>
-                        </div>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">21</p>
-                            <p className="seats">22</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className="col-md-12 mt-2">
-                        <div style={{display:"flex",justifyContent:"space-between"}}>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">23</p>
-                            <p className="seats">24</p>
-                        </div>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">25</p>
-                            <p className="seats">26</p>
-                        </div>
-                        </div>
-                    </div>
-                    <div className="col-md-12 mt-2">
-                        <div style={{display:"flex",justifyContent:"space-evenly"}}>
-                        <div className="d-flex gap-3" >
-                            <p className="seats">27</p>
-                            <p className="seats">28</p>
-                            <p className="seats">29</p>
-                            <p className="seats">30</p>
-                            <p className="seats">31</p>
-                        </div>
-                        
-                        </div>
-                    </div>
-                </div>
-                <div className="row mt-3">
-                  <div className="col-md-12 text-center">
-                    <p style={{backgroundColor:"#08080845",padding:"10px",borderRadius:"3px"}}>₹ 0, For Seat No()</p>
                   </div>
                 </div>
+              </div>
+              <div className="col-md-4">
+                <div className="row">
+                  <div
+                    className="col-md-1"
+                    style={{ backgroundColor: "#139c49", borderRadius: "50%" }}
+                  >
+                    <div>
+                      <p className="ms-3">
+                        <b>Available</b>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="row">
+                  <div
+                    className="col-md-1"
+                    style={{ backgroundColor: "#4F4F4F", borderRadius: "50%" }}
+                  >
+                    <div>
+                      <p className="ms-3">
+                        <b>Booked</b>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+          <div className="container mt-3 p-4">
+            <div className="row">
+              <div className="col-md-12 d-flex justify-content-end">
+                <div className="d-flex gap-3">
+                  <p className="seats">3</p>
+                  <p className="seats">4</p>
+                </div>
+              </div>
+              <div className="col-md-12 mt-2">
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div className="d-flex gap-3">
+                    <p className="seats">1</p>
+                    <p className="seats">2</p>
+                  </div>
+                  <div className="d-flex gap-3">
+                    <p className="seats">7</p>
+                    <p className="seats">8</p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mt-2">
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div className="d-flex gap-3">
+                    <p className="seats">5</p>
+                    <p className="seats">6</p>
+                  </div>
+                  <div className="d-flex gap-3">
+                    <p className="seats">11</p>
+                    <p className="seats">12</p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mt-2">
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div className="d-flex gap-3">
+                    <p className="seats">9</p>
+                    <p className="seats">10</p>
+                  </div>
+                  <div className="d-flex gap-3">
+                    <p className="seats">13</p>
+                    <p className="seats">14</p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mt-2">
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div className="d-flex gap-3">
+                    <p className="seats">15</p>
+                    <p className="seats">16</p>
+                  </div>
+                  <div className="d-flex gap-3">
+                    <p className="seats">17</p>
+                    <p className="seats">18</p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mt-2">
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div className="d-flex gap-3">
+                    <p className="seats">19</p>
+                    <p className="seats">20</p>
+                  </div>
+                  <div className="d-flex gap-3">
+                    <p className="seats">21</p>
+                    <p className="seats">22</p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mt-2">
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div className="d-flex gap-3">
+                    <p className="seats">23</p>
+                    <p className="seats">24</p>
+                  </div>
+                  <div className="d-flex gap-3">
+                    <p className="seats">25</p>
+                    <p className="seats">26</p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12 mt-2">
+                <div
+                  style={{ display: "flex", justifyContent: "space-evenly" }}
+                >
+                  <div className="d-flex gap-3">
+                    <p className="seats">27</p>
+                    <p className="seats">28</p>
+                    <p className="seats">29</p>
+                    <p className="seats">30</p>
+                    <p className="seats">31</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row mt-3">
+              <div className="col-md-12 text-center">
+                <p
+                  style={{
+                    backgroundColor: "#08080845",
+                    padding: "10px",
+                    borderRadius: "3px",
+                  }}
+                >
+                  ₹ 0, For Seat No()
+                </p>
+              </div>
+            </div>
+          </div>
         </Modal.Body>
 
         <Modal.Footer>
@@ -811,96 +1008,164 @@ const LBookYathra = () => {
         </Modal.Footer>
       </Modal>
       <Modal size="md" show={show2} onHide={handleClose2}>
-        <Modal.Header closeButton style={{backgroundColor:"#69CC4D",color:"white"}}>
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "#69CC4D", color: "white" }}
+        >
           <Modal.Title>
-          <h4>Yathra Traveller Details</h4>
+            <h4>Yathra Traveller Details</h4>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <div className="container">
-               <div className="row">
-                <div className="col-md-12">
-                  <p><b>Seat No: 37</b></p>
-                  <input type="text" className="vi_0" placeholder="Enter Your Name"/>
-                  <input type="text" className="vi_0 mt-2" placeholder="Enter Your Age"/>
-                </div>
-                <div className="col-md-12 mt-4">
-                  <p><b>Contact Details</b></p>
-                  <input type="text" className="vi_0" placeholder="Enter Your Name"/>
-                  <input type="text" className="vi_0 mt-2" placeholder="Enter Your Email"/>
-                  <input type="text" className="vi_0 mt-2" placeholder="Enter Your Number"/>
-                </div>
-                <div className="col-md-12 mt-4">
-                  <p><b>Select Your Pickup location With Time</b></p>
-                  <select name="" id="" className="vi_0">
-                    <option value="">--select Pickup Location--</option>
-                    <option value="">--Jalahalli--</option>
-                    <option value="">--Sarjapur--</option>
-                    <option value="">--Rajajinagar--</option>
-                    <option value="">--Singapura--</option>
-                    <option value="">--Majestic--</option>
-                  </select>
-                </div>
-                <div className="col-md-12 text-center mt-3 d-flex justify-content-between" style={{backgroundColor:"#08080845",padding:"10px",borderRadius:"3px"}}>
-                    <p >Total Amount</p>
-                    <p>₹7800</p>
-                  </div>
-               </div>
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12">
+                <p>
+                  <b>Seat No: 37</b>
+                </p>
+                <input
+                  type="text"
+                  className="vi_0"
+                  placeholder="Enter Your Name"
+                />
+                <input
+                  type="text"
+                  className="vi_0 mt-2"
+                  placeholder="Enter Your Age"
+                />
+              </div>
+              <div className="col-md-12 mt-4">
+                <p>
+                  <b>Contact Details</b>
+                </p>
+                <input
+                  type="text"
+                  className="vi_0"
+                  placeholder="Enter Your Name"
+                />
+                <input
+                  type="text"
+                  className="vi_0 mt-2"
+                  placeholder="Enter Your Email"
+                />
+                <input
+                  type="text"
+                  className="vi_0 mt-2"
+                  placeholder="Enter Your Number"
+                />
+              </div>
+              <div className="col-md-12 mt-4">
+                <p>
+                  <b>Select Your Pickup location With Time</b>
+                </p>
+                <select name="" id="" className="vi_0">
+                  <option value="">--select Pickup Location--</option>
+                  <option value="">--Jalahalli--</option>
+                  <option value="">--Sarjapur--</option>
+                  <option value="">--Rajajinagar--</option>
+                  <option value="">--Singapura--</option>
+                  <option value="">--Majestic--</option>
+                </select>
+              </div>
+              <div
+                className="col-md-12 text-center mt-3 d-flex justify-content-between"
+                style={{
+                  backgroundColor: "#08080845",
+                  padding: "10px",
+                  borderRadius: "3px",
+                }}
+              >
+                <p>Total Amount</p>
+                <p>₹7800</p>
+              </div>
             </div>
-            
+          </div>
         </Modal.Body>
 
         <Modal.Footer>
-        
           <Button variant="success" onClick={handleClose2}>
-           Pay Now
+            Pay Now
           </Button>
         </Modal.Footer>
       </Modal>
       <Modal size="md" show={show3} onHide={handleClose3}>
-        <Modal.Header closeButton style={{backgroundColor:"#69CC4D",color:"white"}}>
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: "#69CC4D", color: "white" }}
+        >
           <Modal.Title>
-          <h4>Yathra Traveller Details</h4>
+            <h4>Yathra Traveller Details</h4>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <div className="container">
-               <div className="row">
-                <div className="col-md-12">
-                  <p><b>Seat No: 37</b></p>
-                  <input type="text" className="vi_0" placeholder="Enter Your Name"/>
-                  <input type="text" className="vi_0 mt-2" placeholder="Enter Your Age"/>
-                </div>
-                <div className="col-md-12 mt-4">
-                  <p><b>Contact Details</b></p>
-                  <input type="text" className="vi_0" placeholder="Enter Your Name"/>
-                  <input type="text" className="vi_0 mt-2" placeholder="Enter Your Email"/>
-                  <input type="text" className="vi_0 mt-2" placeholder="Enter Your Number"/>
-                </div>
-                <div className="col-md-12 mt-4">
-                  <p><b>Select Your Pickup location With Time</b></p>
-                  <select name="" id="" className="vi_0">
-                    <option value="">--select Pickup Location--</option>
-                    <option value="">--Jalahalli--</option>
-                    <option value="">--Sarjapur--</option>
-                    <option value="">--Rajajinagar--</option>
-                    <option value="">--Singapura--</option>
-                    <option value="">--Majestic--</option>
-                  </select>
-                </div>
-                <div className="col-md-12 text-center mt-3 d-flex justify-content-between" style={{backgroundColor:"#08080845",padding:"10px",borderRadius:"3px"}}>
-                    <p >Total Amount</p>
-                    <p>₹7800</p>
-                  </div>
-               </div>
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12">
+                <p>
+                  <b>Seat No: 37</b>
+                </p>
+                <input
+                  type="text"
+                  className="vi_0"
+                  placeholder="Enter Your Name"
+                />
+                <input
+                  type="text"
+                  className="vi_0 mt-2"
+                  placeholder="Enter Your Age"
+                />
+              </div>
+              <div className="col-md-12 mt-4">
+                <p>
+                  <b>Contact Details</b>
+                </p>
+                <input
+                  type="text"
+                  className="vi_0"
+                  placeholder="Enter Your Name"
+                />
+                <input
+                  type="text"
+                  className="vi_0 mt-2"
+                  placeholder="Enter Your Email"
+                />
+                <input
+                  type="text"
+                  className="vi_0 mt-2"
+                  placeholder="Enter Your Number"
+                />
+              </div>
+              <div className="col-md-12 mt-4">
+                <p>
+                  <b>Select Your Pickup location With Time</b>
+                </p>
+                <select name="" id="" className="vi_0">
+                  <option value="">--select Pickup Location--</option>
+                  <option value="">--Jalahalli--</option>
+                  <option value="">--Sarjapur--</option>
+                  <option value="">--Rajajinagar--</option>
+                  <option value="">--Singapura--</option>
+                  <option value="">--Majestic--</option>
+                </select>
+              </div>
+              <div
+                className="col-md-12 text-center mt-3 d-flex justify-content-between"
+                style={{
+                  backgroundColor: "#08080845",
+                  padding: "10px",
+                  borderRadius: "3px",
+                }}
+              >
+                <p>Total Amount</p>
+                <p>₹7800</p>
+              </div>
             </div>
-            
+          </div>
         </Modal.Body>
 
         <Modal.Footer>
-        
           <Button variant="success" onClick={handleClose3}>
-           Pay Now
+            Pay Now
           </Button>
         </Modal.Footer>
       </Modal>
