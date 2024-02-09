@@ -7,10 +7,11 @@ import axios from "axios";
 import { FaEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import "./Styles/LProfile.css";
+import { useNavigate } from "react-router-dom";
 
 const LProfile = () => {
   const user = JSON.parse(sessionStorage.getItem("user"));
-
+  const navigate = useNavigate();
   const [PasswordShow, setPasswordShow] = useState(false);
   const [confirmpasswordshow, setconfirmpasswordshow] = useState(false);
 
@@ -25,50 +26,95 @@ const LProfile = () => {
   const handleClose6 = () => setShow6(false);
   const handleShow6 = () => setShow6(true);
 
+  const [name, setName] = useState("");
+  const [number, setNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [cpassword, setCpassword] = useState("");
+  const [address, setAddress] = useState("");
+
+  const upadateprofile = async () => {
+    try {
+      const config = {
+        url: "/UpdateUser",
+        method: "put",
+        baseURL: "http://saisathish.info/api/User",
+        headers: { "content-type": "application/json" },
+        data: {
+          id: user?._id,
+          name: name,
+          phone: number,
+          email: email,
+          address: address,
+          password: password,
+        },
+      };
+
+      let res = await axios(config);
+
+      if (res.status === 200) {
+        console.log(res.data.success);
+        alert("Update Success");
+        navigate("/LoginHome");
+      }
+    } catch (error) {
+      console.log("error", error.response);
+      if (error.response) {
+        alert(error.response.data.error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (!user) {
+      return alert("Please login first");
+    }
+  }, [user]);
+
   return (
     <div>
       <div className="myaccount-component">
         {/* {User?.map((item) => {
             return ( */}
-      
-          <div className="profile-container text-center">
-            <img
-              src={`http://saisathish.info/Product/${user?.agentprofile}`}
-              alt="Admin"
-              className="mt-5"
-              width="70%"
-              height="200px"
-            />
 
-            <h5 className="user-name">{user?.name}</h5>
+        <div className="profile-container text-center">
+          <img
+            src={`http://saisathish.info/Product/${user?.agentprofile}`}
+            alt="Admin"
+            className="mt-5"
+            width="70%"
+            height="200px"
+          />
+
+          <h5 className="user-name">{user?.name}</h5>
+        </div>
+
+        <div className="profile-container-2">
+          <div className="profile-content-display">
+            <div className="profile-user-deatils">
+              <label className="profile-user-title">Full Name</label>
+              <p className="profile-user-subtitle">{user?.name}</p>
+            </div>
+            <div className="profile-user-deatils">
+              <label className="profile-user-title">Phone Number</label>
+              <p className="profile-user-subtitle">{user?.phone}</p>
+            </div>
+            <div className="profile-user-deatils">
+              <label className="profile-user-title">Email ID</label>
+              <p className="profile-user-subtitle">{user?.email}</p>
+            </div>
           </div>
 
-          <div className="profile-container-2">
-            <div className="profile-content-display">
-              <div className="profile-user-deatils">
-                <label className="profile-user-title">Full Name</label>
-                <p className="profile-user-subtitle">{user?.name}</p>
-              </div>
-              <div className="profile-user-deatils">
-                <label className="profile-user-title">Phone Number</label>
-                <p className="profile-user-subtitle">{user?.phone}</p>
-              </div>
-              <div className="profile-user-deatils">
-                <label className="profile-user-title">Email ID</label>
-                <p className="profile-user-subtitle">{user?.email}</p>
-              </div>
+          <div className="profile-content-display">
+            <div className="profile-user-deatils">
+              <label className="profile-user-title">Address</label>
+              <p className="profile-user-subtitle">
+                {user?.address}, {user?.address2}
+              </p>
             </div>
+          </div>
 
-            <div className="profile-content-display">
-              <div className="profile-user-deatils">
-                <label className="profile-user-title">Address</label>
-                <p className="profile-user-subtitle">
-                  {user?.address}, {user?.address2}
-                </p>
-              </div>
-            </div>
-
-            {/* <div className="profile-content-display">
+          {/* <div className="profile-content-display">
                 <div className="profile-user-deatils">
                   <label className="profile-user-title">Country</label>
                   <p className="profile-user-subtitle">{User?.Contury}</p>
@@ -87,18 +133,18 @@ const LProfile = () => {
                 </div>
               </div> */}
 
-            <div>
-              <div className="edit-change-button">
-                <Button
-                  className="header-search"
-                  onClick={() => {
-                    // editRegUser();
-                    handleShow5();
-                  }}
-                >
-                  Edit Profile
-                </Button>
-                {/* <Button
+          <div>
+            <div className="edit-change-button">
+              <Button
+                className="header-search"
+                onClick={() => {
+                  // editRegUser();
+                  handleShow5();
+                }}
+              >
+                Edit Profile
+              </Button>
+              {/* <Button
                     className="header-search"
                     style={{ width: "auto" }}
                     onClick={() => {
@@ -107,10 +153,10 @@ const LProfile = () => {
                   >
                     Change Password
                   </Button> */}
-              </div>
             </div>
           </div>
-        
+        </div>
+
         {/* );
            })} */}
       </div>
@@ -128,69 +174,74 @@ const LProfile = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Full Name"
-                //   value={Name}
-                //   onChange={(e) => setName(e.target.value)}
+                placeholder={user?.name}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="col-lg-12 mb-3">
-            <label>Phone No</label>
+              <label>Phone No</label>
 
               <input
                 type="text"
                 className="form-control"
-                placeholder="Phone No"
-                //   value={Phone}
-                //   onChange={(e) => {
-                //     setPhone(e.target.value);
-                //   }}
+                placeholder={user?.phone}
+                value={number}
+                onChange={(e) => setNumber(e.target.value)}
               />
             </div>
             <div className="col-lg-12 mb-3">
               <label htmlFor="">Email</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Email "
-                  // value={email}
-                  // onChange={(e) => {setEmail(e.target.value)}}
-                />
-              </div>
-          
-              <div className="col-lg-12 mb-3">
-                <label htmlFor="">Address</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="address"
-                  // onChange={(e) => {setImages(e.target.files[0])}}
-                />
-              </div>
-              <div className="col-lg-6 mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="password"
-                  // onChange={(e) => {setImages(e.target.files[0])}}
-                />
-              </div>
-              <div className="col-lg-6 mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="confirm password"
-                  // onChange={(e) => {setImages(e.target.files[0])}}
-                />
-              </div>
-            
-           
+              <input
+                type="text"
+                className="form-control"
+                placeholder={user?.email}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="col-lg-12 mb-3">
+              <label htmlFor="">Address</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder={user?.address}
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+            </div>
+            <div className="col-lg-6 mb-3">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+            </div>
+            <div className="col-lg-6 mb-3">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="confirm password"
+                value={cpassword}
+                onChange={(e) => {
+                  setCpassword(e.target.value);
+                }}
+              />
+            </div>
           </Row>
 
           <div className="mb-4">
             <Button
               className="header-search"
               style={{ width: "100%" }}
-              // onClick={()=>{editRegUser()}}
+              onClick={() => {
+                upadateprofile();
+              }}
             >
               Update
             </Button>

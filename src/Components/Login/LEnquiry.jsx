@@ -1,92 +1,135 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Container, Form, Modal } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const LEnquiry = () => {
-    const [show, setShow] = useState(false);
+  const agentDetails = sessionStorage.getItem("user");
+  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-  
-    const [Subject, setSubject] = useState("");
-    const [Name, setName] = useState("");
-    const [Number, setNumber] = useState("");
-    const [Email, setEmail] = useState("");
-    const [Msg, setMsg] = useState("");
-  
-    const sendmail = async () => {
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [enquiry, setEnquiry] = useState("");
+  const [comment, setComment] = useState("");
+  let [user, setUser] = useState({});
+  var validRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  var mobilevalid = /^[6-9][0-9]{9}$/;
+
+  const Enquirypost = async () => {
+    user = JSON.parse(agentDetails);
+    if (!name) {
+      alert("Please Enter Your  Name");
+      return;
+    }
+    if (!email) {
+      alert("Please Enter Your Email Id ");
+      return;
+    }
+    if (!email.match(validRegex)) {
+      alert("Enter Valid Email-Id");
+      return;
+    }
+
+    if (!mobile) {
+      alert("Enter Contact Number");
+      return;
+    }
+    if (mobile.length != 10) {
+      alert("Enter Contact Number should be 10 digits");
+      return;
+    }
+    if (!mobile.match(mobilevalid)) {
+      alert("Enter Valid Contact Number");
+      return;
+    }
+    if (!comment) {
+      alert("Enter Comment");
+      return;
+    } else {
       try {
-        if (!Subject) return alert("Please Select Business / Services");
-        if (!Name) return alert("Please Enter Your Name");
-        if (!Number) return alert("Please Enter Your Number");
-        if (!Email) return alert("Please Enter Your Email");
-        if (!Msg) return alert("Do Not leave Empty Comment Section");
-  
         const config = {
-          url: "/sendmailforenquiry",
+          url: "/AddEnquire",
           method: "post",
-          baseURL: "http://saisathish.info/api/user",
-          headers: { "content-type": "application/Json" },
+          baseURL: "http://saisathish.info/api/Admin",
+          headers: { "content-type": "application/json" },
           data: {
-            subject: Subject,
-            name: Name,
-            mobile: Number,
-            email: Email,
-            comment: Msg,
+            userId: user?._id,
+            name: name,
+            email: email,
+            mobile: mobile,
+            enquiretype: enquiry,
+            enquireCommenets: comment,
           },
         };
+
         let res = await axios(config);
-        if (res.status == 200) {
-          alert("Mail Sent Successfully");
-          window.location.assign("/");
+
+        if (res.status === 200) {
+          console.log(res.data.success);
+          alert("Submit Enquiry Successfully");
+          navigate("/LoginHome");
         }
       } catch (error) {
-        console.log(error);
+        console.log("error", error.response);
+        if (error.response) {
+          alert(error.response.data.error);
+        }
       }
-    };
-  
-    const buttonWidth = 70;
-  
-    return (
-      <div>
-        <Container>
-          <div
-            onClick={handleShow}
-            style={{
-              marginLeft: buttonWidth,
-              whiteSpace: "nowrap",
-            }}
-          >
-            <div className="scroll_top_button active_0 kk ">
-              <img
-                src="../img/customer-service.png"
-                alt=""
-                style={{ width: "30px", height: "30px" }}
-              />
-  
-              <p style={{ fontSize: "12px", color: "#000", fontWeight: "bold" }}>
-                Enquiry Now
-              </p>
-            </div>
-          </div>
-        </Container>
-  
-        <Modal
-          show={show}
-          onHide={handleClose}
-          backdrop="static"
-          keyboard={false}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title className="business-img-text mb-0" >
-             <p style={{color:"#69CC4D"}}> Enquiry Now</p>
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-          <div>
-           
+    }
+  };
 
+  useEffect(() => {
+    if (!agentDetails) {
+      return alert("Please login first");
+    }
+  }, [agentDetails]);
+
+  const buttonWidth = 70;
+
+  return (
+    <div>
+      <Container>
+        <div
+          onClick={handleShow}
+          style={{
+            marginLeft: buttonWidth,
+            whiteSpace: "nowrap",
+          }}
+        >
+          <div className="scroll_top_button active_0 kk ">
+            <img
+              src="../img/customer-service.png"
+              alt=""
+              style={{ width: "30px", height: "30px" }}
+            />
+
+            <p style={{ fontSize: "12px", color: "#000", fontWeight: "bold" }}>
+              Enquiry Now
+            </p>
+          </div>
+        </div>
+      </Container>
+
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title className="business-img-text mb-0">
+            <p style={{ color: "#69CC4D" }}> Enquiry Now</p>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div>
             <div>
               <label>Name</label>
               <input
@@ -96,6 +139,7 @@ const LEnquiry = () => {
                 placeholder="Name"
                 aria-label="Name"
                 aria-describedby="basic-addon1"
+                value={name}
                 onChange={(e) => setName(e.target.value)}
               />
               <label>Phone No</label>
@@ -106,7 +150,8 @@ const LEnquiry = () => {
                 placeholder="Number"
                 aria-label="Number"
                 aria-describedby="basic-addon1"
-                onChange={(e) => setNumber(e.target.value)}
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value)}
               />
             </div>
 
@@ -119,6 +164,7 @@ const LEnquiry = () => {
                 placeholder="Email ID"
                 aria-label="Email ID"
                 aria-describedby="basic-addon1"
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <label>Enquire </label>
@@ -127,25 +173,26 @@ const LEnquiry = () => {
                 class="form-control"
                 placeholder="Message"
                 id="floatingTextarea"
-                onChange={(e) => setMsg(e.target.value)}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
               ></textarea>
             </div>
           </div>
         </Modal.Body>
-          <Modal.Footer className="justify-content-center">
-            <div>
-              {" "}
-              <button
-                className="enquery-now "
-                style={{ width: "300px" }}
-                // onClick={sendmail}
-              >
-                Send Mail
-              </button>
-            </div>
-          </Modal.Footer>
-        </Modal>
-      </div>
-    );
-  };
-export default LEnquiry
+        <Modal.Footer className="justify-content-center">
+          <div>
+            {" "}
+            <button
+              className="enquery-now "
+              style={{ width: "300px" }}
+              onClick={Enquirypost}
+            >
+              Submit
+            </button>
+          </div>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  );
+};
+export default LEnquiry;

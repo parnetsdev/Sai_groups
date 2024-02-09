@@ -190,78 +190,78 @@ export default function LCheckout() {
   };
 
   // =========== online payment===============
-  // var myCurrentDate = new Date();
-  // var date =
-  //   myCurrentDate.getFullYear() +
-  //   "-" +
-  //   (myCurrentDate.getMonth() + 1) +
-  //   "-" +
-  //   myCurrentDate.getDate() +
-  //   "/ " +
-  //   myCurrentDate.getHours() +
-  //   ":" +
-  //   myCurrentDate.getMinutes() +
-  //   ":" +
-  //   myCurrentDate.getSeconds();
-  // const newCurrentDate = date;
+  var myCurrentDate = new Date();
+  var date =
+    myCurrentDate.getFullYear() +
+    "-" +
+    (myCurrentDate.getMonth() + 1) +
+    "-" +
+    myCurrentDate.getDate() +
+    "/ " +
+    myCurrentDate.getHours() +
+    ":" +
+    myCurrentDate.getMinutes() +
+    ":" +
+    myCurrentDate.getSeconds();
+  const newCurrentDate = date;
 
-  // // const [paymentmethod, setpaymentmethod] = useState('');
-  // const [Payid, setpayid] = useState();
+  // const [paymentmethod, setpaymentmethod] = useState('');
+  const [Payid, setpayid] = useState();
 
-  // const placeorder = async (PaymentId) => {
-  //   let user = JSON.parse(agentDetails);
-  //   if (Object.keys(showAddress).length) {
-  //     // if (!paymentmethod) {
-  //     //   return alert('Please Select The Payment Method');
-  //     // }
-  //     // else
-  //     try {
-  //       const config = {
-  //         url: "/orderproduct",
-  //         method: "post",
-  //         baseURL: "http://saisathish.info/api/Admin",
-  //         headers: { "content-type": "application/json" },
-  //         data: {
-  //           userId: user._id,
-  //           Price: total,
-  //           quantity: "",
-  //           customerorderdatetime: newCurrentDate,
-  //           deliverydate: "",
-  //           Totalamount: total,
-  //           PaymentId: PaymentId,
-  //           PaymentMethod: "Online",
-  //           FName: user?.name,
-  //           Phno: user?.phone,
-  //           email: user?.email,
+  const placeorder = async (PaymentId) => {
+    let user = JSON.parse(agentDetails);
+    if (Object.keys(showAddress).length) {
+      // if (!paymentmethod) {
+      //   return alert('Please Select The Payment Method');
+      // }
+      // else
+      try {
+        const config = {
+          url: "/orderproduct",
+          method: "post",
+          baseURL: "http://saisathish.info/api/Admin",
+          headers: { "content-type": "application/json" },
+          data: {
+            userId: user._id,
+            Price: total,
+            quantity: "",
+            customerorderdatetime: newCurrentDate,
+            deliverydate: "",
+            Totalamount: total,
+            PaymentId: PaymentId,
+            PaymentMethod: "Online",
+            FName: user?.name,
+            Phno: user?.phone,
+            email: user?.email,
 
-  //           House: showAddress?.houseno,
-  //           Area: showAddress?.houseno,
-  //           Landmark: showAddress?.village,
-  //           City: showAddress?.city,
-  //           State: showAddress?.state,
-  //           subTotal: total,
-  //           allTotal: total,
-  //           Discount: discount,
-  //           allproduct: allCartData,
+            House: showAddress?.houseno,
+            Area: showAddress?.houseno,
+            Landmark: showAddress?.village,
+            City: showAddress?.city,
+            State: showAddress?.state,
+            subTotal: total,
+            allTotal: total,
+            Discount: discount,
+            allproduct: allCartData,
 
-  //           Discountproduct: discount,
-  //         },
-  //       };
-  //       await axios(config).then(function (res) {
-  //         if ((res.status = 200)) {
-  //           console.log("success");
-  //           alert("Order Placed Successfully");
-  //           navigate("/Home");
-  //         }
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
-  //       alert("Unable to place Order");
-  //     }
-  //   } else {
-  //     alert("Please Select The Shipping Address");
-  //   }
-  // };
+            Discountproduct: discount,
+          },
+        };
+        await axios(config).then(function (res) {
+          if ((res.status = 200)) {
+            console.log("success");
+            alert("Order Placed Successfully");
+            navigate("/LoginOrderHistroy");
+          }
+        });
+      } catch (error) {
+        console.log(error);
+        alert("Unable to place Order");
+      }
+    } else {
+      alert("Please Select The Shipping Address");
+    }
+  };
 
   // const Razorpay = async () => {
   //   let user = JSON.parse(agentDetails);
@@ -505,7 +505,8 @@ export default function LCheckout() {
               height: "40px",
               borderRadius: "10px",
             }}
-            onClick={() => makePayment()}
+            // onClick={() => makePayment()}
+            onClick={() => placeorder()}
           >
             Place Order
           </button>
