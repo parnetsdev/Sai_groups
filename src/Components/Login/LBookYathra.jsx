@@ -130,9 +130,7 @@ const LBookYathra = () => {
 
   function enterTravellersDetails() {
     if (selectedSeats.length > 3) {
-      return alert(
-        "Cannot Proceed!!! At time You can booked only three seats."
-      );
+      return alert("Cannot Proceed!!! At time You can book only three seats.");
     } else if (!selectedSeats.length) {
       return alert("Cannot Proceed!!! Please select atleast one seat to book.");
     } else {
@@ -143,7 +141,7 @@ const LBookYathra = () => {
   function enterTravellersDetails1() {
     if (selectedSeats.length > 3) {
       return alert(
-        "Cannot Proceed!!! At time You can booked only three seats."
+        "Cannot Proceed!!! At time You can book only three seats at a time."
       );
     } else if (!selectedSeats.length) {
       return alert("Cannot Proceed!!! Please select atleast one seat to book.");
@@ -335,10 +333,43 @@ const LBookYathra = () => {
 
   // =====================booking ytra starts ====================
 
+  // const [passengerName, setpassengerName] = useState("");
+  // const [passengerAge, setpassengerAge] = useState();
+  // const [gender, setgender] = useState("");
   const placeorderB = async (txnid) => {
     // console.log(txnid, 'dddeedff');
     let value = calculateTotalAmount();
     let user = JSON.parse(agentDetails);
+
+    // Data validation
+    // `Name:${item.name}, Age:${item.age},Gender:${item?.gender},SeatNo:${item?.seatno}`
+    if (selectedSeats?.length !== bookedSeatsDetails?.length) {
+      return alert("Please fill the details properly!!!");
+    }
+
+    if (!name || !email || !mobile) {
+      return alert("Please fill the contact details");
+    }
+    const nameRegex = /^[A-Za-z]+(?:[\s'-][A-Za-z]+)*$/;
+    if (!nameRegex.test(name)) {
+      return alert("Name is Invalid!!! Please enter valid name only!!!");
+    }
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      return alert(
+        "Email-id is Invalid!!! Please enter valid Email-id only!!!"
+      );
+    }
+
+    const phoneNumberRegex = /^(\d{10}|\(\d{3}\)\s?\d{3}[-\s]?\d{4})$/;
+    if (!phoneNumberRegex.test(mobile)) {
+      return alert("mobile is Invalid!!! Please enter valid mobile only!!!");
+    }
+
+    if (!pickupLocselectedValue) {
+      return alert("Please select pickup location");
+    }
+
     try {
       const config = {
         url: "/booking",
@@ -426,6 +457,37 @@ const LBookYathra = () => {
   const placeorderF = async (txnid) => {
     // console.log(txnid, 'dddeedff');
     let user = JSON.parse(agentDetails);
+    let value = calculateTotalAmount();
+
+    // Data validation
+    // `Name:${item.name}, Age:${item.age},Gender:${item?.gender},SeatNo:${item?.seatno}`
+    if (selectedSeats?.length !== bookedSeatsDetails1?.length) {
+      return alert("Please fill the details properly!!!");
+    }
+
+    if (!name || !email || !mobile) {
+      return alert("Please fill the contact details");
+    }
+    const nameRegex = /^[A-Za-z]+(?:[\s'-][A-Za-z]+)*$/;
+    if (!nameRegex.test(name)) {
+      return alert("Name is Invalid!!! Please enter valid name only!!!");
+    }
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      return alert(
+        "Email-id is Invalid!!! Please enter valid Email-id only!!!"
+      );
+    }
+
+    const phoneNumberRegex = /^(\d{10}|\(\d{3}\)\s?\d{3}[-\s]?\d{4})$/;
+    if (!phoneNumberRegex.test(mobile)) {
+      return alert("mobile is Invalid!!! Please enter valid mobile only!!!");
+    }
+
+    if (!pickupLocselectedValue1) {
+      return alert("Please select pickup location");
+    }
+
     try {
       const config = {
         url: "/booking",
@@ -444,8 +506,8 @@ const LBookYathra = () => {
           destination: "Shirdi",
           SeatNo: selectedSeats,
           customerdetails: bookedSeatsDetails1,
-          amount: calculateTotalAmount(),
-          Total: calculateTotalAmount(),
+          amount: value,
+          Total: value,
           PaymentMethod: "Online",
           PayId: txnid,
           Status: "Booked",
@@ -503,6 +565,10 @@ const LBookYathra = () => {
       console.log(error, "error");
     }
   };
+
+  pickup
+    ?.filter((item) => item?.triptype == "Air Package")
+    ?.map((ele) => console.log(9099090900, ele?.pickuplocation));
 
   // ====================booking ytra finish ================
 
@@ -649,7 +715,7 @@ const LBookYathra = () => {
                       <div className="contact-form-section">
                         <div className="form-container">
                           <div className="faq">
-                            <h2>TOUR ITINEARARY</h2>
+                            <h2>TOUR ITINERARY</h2>
                             <ul
                               // className="accordian"
                               style={{ padding: "0px" }}
@@ -853,7 +919,7 @@ const LBookYathra = () => {
                           <div className="contact-form-section">
                             <div className="form-container">
                               <div className="faq">
-                                <h2>TOUR ITINEARARY</h2>
+                                <h2>TOUR ITINERARY</h2>
                                 <ul
                                   // className="accordian"
                                   style={{ padding: "0px" }}
@@ -1005,7 +1071,7 @@ const LBookYathra = () => {
                 <div className="row">
                   <div
                     className="col-md-1"
-                    style={{ backgroundColor: "#FF6767", borderRadius: "50%" }}
+                    style={{ backgroundColor: "#FDA4BA", borderRadius: "50%" }}
                   >
                     <div>
                       <p className="ms-3">
@@ -1504,7 +1570,7 @@ const LBookYathra = () => {
                 <div className="row">
                   <div
                     className="col-md-1"
-                    style={{ backgroundColor: "#FF6767", borderRadius: "50%" }}
+                    style={{ backgroundColor: "#FDA4BA", borderRadius: "50%" }}
                   >
                     <div>
                       <p className="ms-3">
@@ -1993,7 +2059,7 @@ const LBookYathra = () => {
           style={{ backgroundColor: "#69CC4D", color: "white" }}
         >
           <Modal.Title>
-            <h4>Yathra Traveller Details</h4>
+            <h4>Yatra Traveller Details</h4>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -2008,28 +2074,66 @@ const LBookYathra = () => {
                     type="text"
                     className="vi_0"
                     placeholder="Enter Your Name"
+                    // value={passengerName}
                     onChange={(e) => {
-                      handleSeatChange(index, {
-                        name: e.target.value,
-                        seatno: seatNumber,
-                      });
+                      const nameRegex = /^[A-Za-z]+(?:[\s'-][A-Za-z]+)*$/;
+                      if (!nameRegex.test(e.target.value)) {
+                        // setpassengerName(e.target.value);
+                        e.target.value = "";
+                        return alert(
+                          "Name is Invalid!!! Please enter valid name only!!!"
+                        );
+                      } else {
+                        // setpassengerName("");
+                        handleSeatChange(index, {
+                          name: e.target.value,
+                          seatno: seatNumber,
+                        });
+                      }
                     }}
                   />
                   <input
                     type="number"
                     className="vi_0 mt-2"
+                    // value={passengerAge}
                     placeholder="Enter Your Age"
                     onChange={(e) => {
-                      handleSeatChange(index, { age: e.target.value });
+                      if (
+                        Number(e.target.value) < 1 ||
+                        Number(e.target.value) > 200
+                      ) {
+                        // setpassengerAge(0);
+                        e.target.value = "";
+                        return alert(
+                          "Age is Invalid!!! Please enter valid Age only!!!"
+                        );
+                      } else {
+                        // setpassengerAge(e.target.value);
+                        handleSeatChange(index, { age: e.target.value });
+                      }
                     }}
                   />
                   <select
                     className="vi_0 mt-2 mb-2"
-                    onChange={(e) =>
-                      handleSeatChange(index, {
-                        gender: e.target.value,
-                      })
-                    }
+                    // value={gender}
+                    onChange={(e) => {
+                      if (
+                        e.target.value !== "Male" &&
+                        e.target.value !== "Female" &&
+                        e.target.value !== "Other"
+                      ) {
+                        // setgender("");
+                        e.target.value = "";
+                        return alert(
+                          "Gender is Invalid!!! Please enter valid Gender only!!!"
+                        );
+                      } else {
+                        // setgender(e.target.value);
+                        handleSeatChange(index, {
+                          gender: e.target.value,
+                        });
+                      }
+                    }}
                   >
                     <option value="">Select Gender</option>
                     <option value="Male">Male</option>
@@ -2107,6 +2211,7 @@ const LBookYathra = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
       <Modal size="md" show={show3} onHide={handleClose3}>
         <Modal.Header
           closeButton
@@ -2129,10 +2234,19 @@ const LBookYathra = () => {
                     className="vi_0"
                     placeholder="Enter Your Name"
                     onChange={(e) => {
-                      handleSeatChange1(index, {
-                        name: e.target.value,
-                        seatno: seatNumber,
-                      });
+                      const nameRegex = /^[A-Za-z]+(?:[\s'-][A-Za-z]+)*$/;
+                      if (!nameRegex.test(e.target.value)) {
+                        // setpassengerName(e.target.value);
+                        e.target.value = "";
+                        return alert(
+                          "Name is Invalid!!! Please enter valid name only!!!"
+                        );
+                      } else {
+                        handleSeatChange1(index, {
+                          name: e.target.value,
+                          seatno: seatNumber,
+                        });
+                      }
                     }}
                   />
                   <input
@@ -2140,16 +2254,39 @@ const LBookYathra = () => {
                     className="vi_0 mt-2"
                     placeholder="Enter Your Age"
                     onChange={(e) => {
-                      handleSeatChange1(index, { age: e.target.value });
+                      if (
+                        Number(e.target.value) < 1 ||
+                        Number(e.target.value) > 200
+                      ) {
+                        // setpassengerAge(0);
+                        e.target.value = "";
+                        return alert(
+                          "Age is Invalid!!! Please enter valid Age only!!!"
+                        );
+                      } else {
+                        handleSeatChange1(index, { age: e.target.value });
+                      }
                     }}
                   />
                   <select
                     className="vi_0 mt-2 mb-2"
-                    onChange={(e) =>
-                      handleSeatChange1(index, {
-                        gender: e.target.value,
-                      })
-                    }
+                    onChange={(e) => {
+                      if (
+                        e.target.value !== "Male" &&
+                        e.target.value !== "Female" &&
+                        e.target.value !== "Other"
+                      ) {
+                        // setgender("");
+                        e.target.value = "";
+                        return alert(
+                          "Gender is Invalid!!! Please enter valid Gender only!!!"
+                        );
+                      } else {
+                        handleSeatChange1(index, {
+                          gender: e.target.value,
+                        });
+                      }
+                    }}
                   >
                     <option value="">Select Gender</option>
                     <option value="Male">Male</option>
@@ -2177,7 +2314,7 @@ const LBookYathra = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
-                  type="text"
+                  type="number"
                   className="vi_0 mt-2"
                   placeholder="Enter Your Number"
                   value={mobile}
@@ -2198,9 +2335,11 @@ const LBookYathra = () => {
                   {pickup
                     ?.filter((item) => item?.triptype == "Air Package")
                     ?.map((ele) => {
-                      <option value={ele?.pickuplocation}>
-                        {ele?.pickuplocation}
-                      </option>;
+                      return (
+                        <option value={ele?.pickuplocation}>
+                          {ele?.pickuplocation}
+                        </option>
+                      );
                     })}
                 </select>
               </div>

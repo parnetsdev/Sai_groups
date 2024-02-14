@@ -1,51 +1,58 @@
-import { useState } from 'react';
-import Carousel from 'react-bootstrap/Carousel';
-import LLListOfBusiness from './LLListOfBusiness';
+import { useState } from "react";
+import Carousel from "react-bootstrap/Carousel";
+import LLListOfBusiness from "./LLListOfBusiness";
 // import NavbarScroll from './NavBar';
 
 const LHome = () => {
-    const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(0);
 
-    const handleSelect = (selectedIndex) => {
-        setIndex(selectedIndex);
-    };
+  const handleSelect = (selectedIndex) => {
+    setIndex(selectedIndex);
+  };
 
-    return (
-        <>
-            
-
-            <Carousel className='mb-5' activeIndex={index} onSelect={handleSelect}>
-                <Carousel.Item >
-                <img src="./img/gallery-img-5.webp" alt="" className='header-carousel header-slider-rspns'  />
-                    <Carousel.Caption>
-                        {/* <h3>First slide label</h3>
+  return (
+    <>
+      <Carousel className="" activeIndex={index} onSelect={handleSelect}>
+        <Carousel.Item>
+          <img
+            src="./img/gallery-img-5.webp"
+            alt=""
+            className="header-carousel header-slider-rspns"
+          />
+          <Carousel.Caption>
+            {/* <h3>First slide label</h3>
                         <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
-                    </Carousel.Caption>
-                </Carousel.Item>
-                <Carousel.Item >
-                  <img src="./img/gallery-img-4.webp" alt=""className='header-carousel header-slider-rspns' />
-                    <Carousel.Caption>
-                        {/* <h3>Second slide label</h3>
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            src="./img/gallery-img-4.webp"
+            alt=""
+            className="header-carousel header-slider-rspns"
+          />
+          <Carousel.Caption>
+            {/* <h3>Second slide label</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> */}
-                    </Carousel.Caption>
-                </Carousel.Item>
-                <Carousel.Item >
-                <img src="./img/gallery-img-2.webp" alt="" className='header-carousel header-slider-rspns'/>
-                    <Carousel.Caption>
-                        {/* <h3>Third slide label</h3>
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            src="./img/gallery-img-2.webp"
+            alt=""
+            className="header-carousel header-slider-rspns"
+          />
+          <Carousel.Caption>
+            {/* <h3>Third slide label</h3>
                         <p>
                             Praesent commodo cursus magna, vel scelerisque nisl consectetur.
                         </p> */}
-                    </Carousel.Caption>
-                </Carousel.Item>
-            </Carousel>
+          </Carousel.Caption>
+        </Carousel.Item>
+      </Carousel>
 
-<LLListOfBusiness />
+      {/* <LLListOfBusiness /> */}
+    </>
+  );
+};
 
-        </>
-
-
-    );
-}
-
-export default LHome
+export default LHome;

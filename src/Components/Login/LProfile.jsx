@@ -33,7 +33,45 @@ const LProfile = () => {
   const [cpassword, setCpassword] = useState("");
   const [address, setAddress] = useState("");
 
+  const nameRegex = /^[A-Za-z]+(?:[\s'-][A-Za-z]+)*$/;
+  const phoneNumberRegex = /^(\d{10}|\(\d{3}\)\s?\d{3}[-\s]?\d{4})$/;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
   const upadateprofile = async () => {
+    if (name) {
+      if (!nameRegex.test(name)) {
+        return alert("Name is Invalid!!! Please enter valid name only!!!");
+      }
+    }
+    if (number) {
+      if (!phoneNumberRegex.test(number)) {
+        return alert(
+          "Mobile number is Invalid!!! Please enter valid mobile number only!!!"
+        );
+      }
+    }
+    if (email) {
+      if (!emailRegex.test(email)) {
+        return alert(
+          "Email-id is Invalid!!! Please enter valid Email-id only!!!"
+        );
+      }
+    }
+
+    if (password && cpassword) {
+      if (password !== cpassword) {
+        return alert(
+          "Password and confirm password is not matching!!! Please try again..."
+        );
+      }
+      if (!passwordRegex.test(password)) {
+        return alert(
+          "Password is not strong!!! Password must contain min 8 digit atleast one upper case , one lowe case ,one numberic and one special characte"
+        );
+      }
+    }
     try {
       const config = {
         url: "/UpdateUser",
@@ -53,9 +91,10 @@ const LProfile = () => {
       let res = await axios(config);
 
       if (res.status === 200) {
-        console.log(res.data.success);
+        console.log(res.data.success, "jijijijijijijij");
         alert("Update Success");
-        navigate("/LoginHome");
+        handleClose5();
+        // navigate("/LoginHome");
       }
     } catch (error) {
       console.log("error", error.response);

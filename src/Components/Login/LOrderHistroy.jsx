@@ -13,6 +13,9 @@ const LOrderHistroy = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [OrdersPerPage] = useState(10);
+
   const [details, setDetails] = useState({});
   const [allorder, setAllorder] = useState([]);
   const getAllorder = async () => {
@@ -27,6 +30,10 @@ const LOrderHistroy = () => {
   useEffect(() => {
     getAllorder();
   }, []);
+
+  useEffect(() => {
+    console.log("hfhfhfhffhf: ", details);
+  }, [details]);
 
   // to print the pdf ----->
   const createPDF = async () => {
@@ -57,6 +64,12 @@ const LOrderHistroy = () => {
 
     pdf.save("RakshaKavachaInvoice.pdf");
   };
+
+  const indexOfLastOrder = currentPage * OrdersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - OrdersPerPage;
+  const currentOrders = allorder.slice(indexOfFirstOrder, indexOfLastOrder);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <div>
       <div className="container mt-3" style={{ backgroundColor: "white" }}>
@@ -90,7 +103,7 @@ const LOrderHistroy = () => {
 
               <tbody>
                 {/* {allorder.map((user, index) => ( */}
-                {allorder?.map((item, i) => {
+                {currentOrders?.map((item, i) => {
                   const formattedDate = moment(
                     item?.customerorderdatetime
                   ).format("DD/MM/YYYY");
@@ -142,6 +155,19 @@ const LOrderHistroy = () => {
                 })}
               </tbody>
             </Table>
+            <div className="pagination d-flex justify-content-end mt-3 mb-3">
+              {[...Array(Math.ceil(allorder.length / OrdersPerPage))].map(
+                (_, index) => (
+                  <Button
+                    style={{ marginRight: "5px" }}
+                    key={index}
+                    onClick={() => paginate(index + 1)}
+                  >
+                    {index + 1}
+                  </Button>
+                )
+              )}
+            </div>
           </div>
         </div>
         {/* <div
@@ -229,108 +255,131 @@ const LOrderHistroy = () => {
       <Modal size="lg" show={show} onHide={handleClose}>
         <Modal.Header closeButton></Modal.Header>
         <h4 style={{ textAlign: "center" }}>Booked History</h4>
-       
-        <Modal.Body>
-        <div className="p-5" id="pdf">
-          <Row>
-            <div
-              className="col-lg-12 mb-3"
-              style={{
-                display: "flex",
-                height: "10rem",
-                justifyContent: "space-between",
-              }}
-            >
-              <div className="invoice-header">
-                <img
-                  src="./assets/logo.webp"
-                  alt=""
-                  className="footer-logo"
-                  style={{ width: "90%", height: "150px", display: "flex" }}
-                />
-              </div>
-              <div className="invoice-header">
-                <p style={{ textAlign: "right" }}>
-                  {" "}
-                  #104, 1, Singapura Main Rd, <br></br>
-                  Vidyaranyapura, Bengaluru, <br></br>
-                  Karnataka 560097<br></br>
-                  SaiGroups@gmail.com <br></br>
-                  SaiGroups.com{" "}
-                </p>
-              </div>
-            </div>
-          </Row>
 
-          <Row>
-            <div
-              className="col-lg-12 mb-3"
-              style={{
-                display: "flex",
-                height: "10rem",
-                justifyContent: "space-between",
-              }}
-            >
-              <div className="invoice-header">
-                <div>
-                  <h4>Bill To</h4>
+        <Modal.Body>
+          <div className="p-5" id="pdf">
+            <Row>
+              <div
+                className="col-lg-12 mb-3"
+                style={{
+                  display: "flex",
+                  height: "10rem",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div className="invoice-header">
+                  <img
+                    src="./assets/logo.webp"
+                    alt=""
+                    className="footer-logo"
+                    style={{ width: "90%", height: "150px", display: "flex" }}
+                  />
                 </div>
-                <hr></hr>
-                <div>
-                  <p>
-                    {details?.House},{details?.Area},{details?.Landmark},
-                    {details?.City},{details?.State}
-                    <br></br>
-                    {details?.Phno}
+                <div className="invoice-header">
+                  <p style={{ textAlign: "right" }}>
+                    {" "}
+                    No 01, 1st Floor Govindappa Complex,
+                    <br />
+                    Near AtoZ Mart,Shiva Mandir Road, <br />
+                    Yelahanka New Town, <br /> Bangalore, Karnataka 560064
                   </p>
                 </div>
               </div>
-              <div className="invoice-header">
-                <div>
-                  <h4>Booked Details</h4>
+            </Row>
+
+            <Row>
+              <div
+                className="col-lg-12 mb-3"
+                style={{
+                  display: "flex",
+                  height: "10rem",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div className="invoice-header">
+                  <div>
+                    <h4>Bill To</h4>
+                  </div>
+                  <hr></hr>
+                  <div>
+                    <p>
+                      {details?.FName},{details?.Phno},<br />
+                      {details?.email},{details?.House},<br />
+                      {details?.Area},{details?.Landmark},<br />
+                      {details?.City},{details?.State}
+                      <br></br>
+                      {details?.Phno}
+                    </p>
+                  </div>
                 </div>
-                <hr></hr>
-                <div>
-                  <b>User ID:</b>
-                  {details?._id}
-                  <br></br>
-                  <b>Order Date:</b>{" "}
-                  {moment(details?.customerorderdatetime).format(
-              "DD/MM/YYYY"
-            )}
-                  <br></br>
-                  <b>Product Name:</b>
-                  {details?.allproduct?.map(
+                <div className="invoice-header">
+                  <div>
+                    <h4>Booked Details</h4>
+                  </div>
+                  <hr></hr>
+                  <div>
+                    <b>User ID:</b>
+                    {details?._id}
+                    <br></br>
+                    <b>Order Date:</b>{" "}
+                    {moment(details?.customerorderdatetime).format(
+                      "DD/MM/YYYY"
+                    )}
+                    <br></br>
+                    {/* <b>Product Name:</b>
+                    {details?.allproduct?.map(
                       (item) => item?.productId?.productName
                     )}
-                  <br></br>
-                  <b>Pay ID:</b>
-                  {details?.PaymentId}
-                  <br></br>
+                    <br></br> */}
+                    <b>Pay ID:</b>
+                    {details?.PaymentId}
+                    <br></br>
+                  </div>
                 </div>
               </div>
-            </div>
-          </Row>
-          <hr></hr>
-          <Row>
-           
-            <div
-              className="col-lg-12 mb-3"
-              style={{
-                display: "flex",
-                height: "1rem",
-                justifyContent: "space-between",
-              }}
-            >
-            
-              <div className="invoice-header">
-                <h4>Total</h4>
+            </Row>
+            <br></br>
+            <Table responsive>
+              <thead style={{ textAlign: "center" }}>
+                <th>S.no.</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+              </thead>
+              <tbody>
+                {details?.allproduct?.map((item, i) => {
+                  return (
+                    <tr>
+                      <td>{++i}</td>
+                      <td>{item?.productId?.productName}</td>
+                      <td>{item?.productId?.price}</td>
+                      <td>{item?.quantity}</td>
+                      <td>{item?.productId?.price * item?.quantity}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+            <hr style={{ marginTop: "2rem" }}></hr>
+
+            <Row>
+              <div
+                className="col-lg-12 mb-3 mt-3"
+                style={{
+                  display: "flex",
+                  height: "1rem",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div className="invoice-header">
+                  <h4>Total</h4>
+                </div>
+                <div className="invoice-header">
+                  <p style={{ textAlign: "right" }}>₹{details?.Totalamount}</p>
+                </div>
               </div>
-              <div className="invoice-header">
-                <p style={{ textAlign: "right" }}>₹{details?.Totalamount}</p>
-              </div>
-            </div>
-          </Row>
+            </Row>
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -340,7 +389,13 @@ const LOrderHistroy = () => {
           >
             Close
           </Button>
-          <Button variant="danger" onClick={()=>{handleClose();createPDF();}}>
+          <Button
+            variant="danger"
+            onClick={() => {
+              handleClose();
+              createPDF();
+            }}
+          >
             Download Invoice
           </Button>
         </Modal.Footer>

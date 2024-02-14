@@ -84,7 +84,7 @@ const Login = () => {
         let res = await axios(config);
         if (res.status === 200) {
           console.log(res.data.success);
-          alert("Login Success");
+          alert("Login Successfully");
           sessionStorage.setItem("user", JSON.stringify(res.data.success));
           setEmail("");
           setPassword("");

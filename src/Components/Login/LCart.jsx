@@ -9,11 +9,15 @@ export default function LCart() {
   const [addcart, setAddcart] = useState([]);
   const getaddcart = async (item) => {
     let user = JSON.parse(agentDetails);
-    let res = await axios.get(
-      "http://saisathish.info/api/Admin/getAddtoCart/" + user?._id
-    );
-    if (res.status === 200) {
-      setAddcart(res.data.addtocart);
+    try {
+      let res = await axios.get(
+        "http://saisathish.info/api/Admin/getAddtoCart/" + user?._id
+      );
+      if (res.status === 200) {
+        setAddcart(res.data.addtocart);
+      }
+    } catch (err) {
+      setAddcart([]);
     }
   };
   const navigate = useNavigate();
@@ -165,20 +169,24 @@ export default function LCart() {
         <div className="p-5">
           <h4>Total Amount = {total}₹</h4>
         </div>
-        <div className="p-5">
-          <button
-            style={{
-              border: "0px solid #3DD065",
-              backgroundColor: "#3DD065",
-              width: "105px",
-              height: "50px",
-              borderRadius: "10px",
-            }}
-            onClick={() => navigate("/LoginCheckout")}
-          >
-            Checkout
-          </button>
-        </div>
+        {addcart?.length ? (
+          <div className="p-5">
+            <button
+              style={{
+                border: "0px solid #3DD065",
+                backgroundColor: "#3DD065",
+                width: "105px",
+                height: "50px",
+                borderRadius: "10px",
+              }}
+              onClick={() => navigate("/LoginCheckout")}
+            >
+              Checkout
+            </button>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

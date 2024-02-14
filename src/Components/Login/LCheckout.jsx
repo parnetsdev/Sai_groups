@@ -12,6 +12,11 @@ export default function LCheckout() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // for delete
+  const [show1, setShow1] = useState(false);
+  const handleClose1 = () => setShow1(false);
+  const handleShow1 = () => setShow1(true);
+
   const navigate = useNavigate();
 
   const agentDetails = sessionStorage.getItem("user");
@@ -64,7 +69,7 @@ export default function LCheckout() {
   const [landmark, setLandmark] = useState("");
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-
+  const [View, setView] = useState({});
   var validRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   var mobilevalid = /^[6-9][0-9]{9}$/;
@@ -93,26 +98,32 @@ export default function LCheckout() {
     if (!name) {
       alert("Enter your Name");
       return;
+    } else {
+      const nameRegex = /^[A-Za-z]+(?:[\s'-][A-Za-z]+)*$/;
+      if (!nameRegex.test(name)) {
+        return alert("Name is Invalid!!! Please enter valid name only!!!");
+      }
     }
     if (!number) {
       alert("Enter Contact Number");
       return;
+    } else {
+      const phoneNumberRegex = /^(\d{10}|\(\d{3}\)\s?\d{3}[-\s]?\d{4})$/;
+      if (!phoneNumberRegex.test(number)) {
+        return alert("mobile is Invalid!!! Please enter valid mobile only!!!");
+      }
     }
-    if (number.length != 10) {
-      alert("Enter Contact Number should be 10 digits");
-      return;
-    }
-    if (!number.match(mobilevalid)) {
-      alert("Enter Valid Contact Number");
-      return;
-    }
+
     if (!email) {
       alert("Please Enter Your Email Id ");
       return;
-    }
-    if (!email.match(validRegex)) {
-      alert("Enter Valid Email-Id");
-      return;
+    } else {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(email)) {
+        return alert(
+          "Email-id is Invalid!!! Please enter valid Email-id only!!!"
+        );
+      }
     }
 
     if (!house) {
@@ -128,7 +139,7 @@ export default function LCheckout() {
       return;
     }
     if (!selectedState) {
-      alert("Enter Your State");
+      return alert("Enter Your State");
     }
     if (!selectedCity) {
       alert("Enter Your City");
@@ -158,9 +169,17 @@ export default function LCheckout() {
 
         if (res.status === 200) {
           console.log("successss", res.data.success);
+          setName("");
+          setNumber("");
+          setEmail("");
+          setHouse("");
+          setArea("");
+          setLandmark("");
+          setSelectedState("");
+          setSelectedCity("");
           getAddress();
           handleClose();
-          alert("Add Successfully.");
+          alert("Added Successfully.");
 
           // navigation.navigate('Home');
         }
@@ -174,14 +193,15 @@ export default function LCheckout() {
   };
 
   // ===================== Delete Address =====================
-  const deleteaddress = async (_id) => {
+  const deleteaddress = async () => {
     try {
       let res = await axios.delete(
-        "http://saisathish.info/api/Admin/deleteaddress/" + _id
+        "http://saisathish.info/api/Admin/deleteaddress/" + View?._id
       );
       if (res.status === 200) {
+        handleClose1();
         getAddress();
-        alert("Delete Address");
+        alert("Address Deleted successfully");
       }
     } catch (error) {
       console.log(error);
@@ -313,6 +333,37 @@ export default function LCheckout() {
 
   //====================start=================================
 
+  const [orderId, setOrderId] = useState("PARCEL1594201192");
+  // const [callbackUrl, setcallbackUrl] = useState(
+  //   `https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=${orderId}`
+  // );
+  // const [callbackUrl, setcallbackUrl] = useState(
+  //   `https://saisathish.info/api/Admin/callbackWeb`
+  // );
+  const [callbackUrl, setcallbackUrl] = useState(
+    `http://saisathish.info/api/Admin/callbackWeb`
+  );
+  // const [callbackUrl, setcallbackUrl] = useState(
+  //   `http://localhost:3000/api/Admin/callbackWeb`
+  // );
+  // const [callbackUrl, setcallbackUrl] = useState(
+  //   `http://localhost:3000/LoginHome`
+  // );
+  const generateOrderId = () => {
+    const r = Math.random() * new Date().getMilliseconds();
+    setOrderId(
+      "PARCEL" +
+        (1 + Math.floor(r % 2000) + 10000) +
+        "b" +
+        (Math.floor(r % 100000) + 10000)
+    );
+    let val =
+      "PARCEL" +
+      (1 + Math.floor(r % 2000) + 10000) +
+      "b" +
+      (Math.floor(r % 100000) + 10000);
+    return val;
+  };
   function isDate(val) {
     // Cross realm comptatible
     return Object.prototype.toString.call(val) === "[object Date]";
@@ -334,6 +385,7 @@ export default function LCheckout() {
     const form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", action);
+    form.setAttribute("id", "form-paytm-id");
 
     Object.keys(params).forEach((key) => {
       const input = document.createElement("input");
@@ -348,13 +400,20 @@ export default function LCheckout() {
 
   function post(details) {
     const form = buildForm(details);
-    document.body.appendChild(form);
+    console.log("form: ", form);
+    // navigate("/LPaymentOrder", { state: JSON.stringify(form) });
+    let parent = document.getElementById("payment-id-1");
+    // parent = ``;
+    parent.appendChild(form);
     form.submit();
     form.remove();
+    // document.body.appendChild(form);
+    // form.submit();
+    // form.remove();
   }
 
   const getData = (data) => {
-    return fetch(`http://saisathish.info/api/paytmMadiWeb`, {
+    return fetch(`http://saisathish.info/api/Admin/paytmMadiWeb`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -367,11 +426,21 @@ export default function LCheckout() {
   };
 
   const makePayment = () => {
-    getData({ amount: 500, email: "abc@gmail.com" }).then((response) => {
+    let user = JSON.parse(agentDetails);
+    let orderId = generateOrderId();
+    getData({
+      amount: total,
+      email: user?.email,
+      userId: user._id,
+      orderId: orderId,
+      callbackUrl: callbackUrl,
+    }).then((response) => {
+      console.log(response, 88989898989898889898989);
       var information = {
         action: "https://securegw-stage.paytm.in/order/process",
         params: response,
       };
+      console.log(information, 12222112122);
       post(information);
     });
   };
@@ -470,7 +539,8 @@ export default function LCheckout() {
                           <div style={{ marginLeft: "20px" }}>
                             <MdDeleteOutline
                               onClick={() => {
-                                deleteaddress(item?._id);
+                                setView(item);
+                                handleShow1();
                               }}
                               style={{ color: "red", fontSize: "27px" }}
                             />
@@ -512,6 +582,7 @@ export default function LCheckout() {
           </button>
         </div>
       </div>
+      <div id="payment-id-1"></div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add Your Address</Modal.Title>
@@ -545,7 +616,7 @@ export default function LCheckout() {
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Control
-                type="text"
+                type="number"
                 placeholder="House Number "
                 value={house}
                 onChange={(e) => setHouse(e.target.value)}
@@ -593,6 +664,28 @@ export default function LCheckout() {
           </Button>
           <Button variant="primary" onClick={() => Addaddress()}>
             Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={show1} onHide={handleClose1}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Address</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div>
+            <b>
+              Are You sure you want to{" "}
+              <span style={{ color: "red" }}>delete</span> the Address?
+            </b>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            No
+          </Button>
+          <Button variant="primary" onClick={() => deleteaddress()}>
+            Yes
           </Button>
         </Modal.Footer>
       </Modal>

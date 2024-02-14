@@ -21,7 +21,7 @@ import {
 const LFooter = () => {
   return (
     <div>
-      <div className="margin-top me-0">
+      <div className="me-0">
         <MDBFooter
           style={{ backgroundColor: "#3DD065", color: "#000" }}
           className=" text-center text-lg-left"
@@ -86,17 +86,17 @@ const LFooter = () => {
                       </a>
                     </li>
                     <li>
-                      <a href="/service" className="text-dark">
+                      <a href="/LoginBuy" className="text-dark">
                         <AiOutlineArrowRight /> Buy Kavacha
                       </a>
                     </li>
                     <li>
-                      <a href="/aboutus" className="text-dark">
+                      <a href="/LoginBookedDetails" className="text-dark">
                         <AiOutlineArrowRight /> Booked Details
                       </a>
                     </li>
                     <li>
-                      <a href="/aboutus" className="text-dark">
+                      <a href="/LoginOrderHistroy" className="text-dark">
                         <AiOutlineArrowRight /> Order History
                       </a>
                     </li>
@@ -111,7 +111,6 @@ const LFooter = () => {
                         <AiOutlineArrowRight /> Terms & Conditions
                       </a>
                     </li>
-                    
                   </ul>
                 </div>
               </MDBCol>
@@ -128,23 +127,22 @@ const LFooter = () => {
 
                 <ul className="list-unstyled">
                   <li className="mb-2">
-                    <a href="/contact" className="text-dark">
-                      <AiOutlineMail
-                        style={{ fontSize: "25px", marginRight: "10px" }}
-                      />{" "}
-                      saisatishmulti@gmail.com
-                    </a>
+                    {/* <a href="/contact" className="text-dark"> */}
+                    <AiOutlineMail
+                      style={{ fontSize: "25px", marginRight: "10px" }}
+                    />{" "}
+                    saisatishmulti@gmail.com
+                    {/* </a> */}
                   </li>
 
                   <li className="mb-2">
-                    <a href="/contact" className="text-dark">
-                      <CiLocationOn
-                        style={{ fontSize: "25px", marginRight: "10px" }}
-                      />
-                      No 01, 1st Floor Govindappa Complex,Near AtoZ Mart,Shiva
-                      Mandir Road, Yelahanka New Town, Bangalore, Karnataka
-                      560064
-                    </a>
+                    {/* <a href="/contact" className="text-dark"> */}
+                    <CiLocationOn
+                      style={{ fontSize: "25px", marginRight: "10px" }}
+                    />
+                    No 01, 1st Floor Govindappa Complex, Near AtoZ Mart, Shiva
+                    Mandir Road, Yelahanka New Town, Bangalore, Karnataka 560064
+                    {/* </a> */}
                   </li>
 
                   {/* <li className='mb-2'>
@@ -154,20 +152,18 @@ const LFooter = () => {
                                     </li> */}
 
                   <li className="mb-2">
-                    <a href="/contact" className="text-dark">
-                      <AiOutlineWhatsApp
-                        style={{ fontSize: "25px", marginRight: "10px" }}
-                      />{" "}
-                      +91-7019774617 <br />{" "}
-                      <span className="ms-5">+91-7996988679</span>
-                    </a>
+                    {/* <a href="/contact" className="text-dark"> */}
+                    <AiOutlineWhatsApp
+                      style={{ fontSize: "25px", marginRight: "10px" }}
+                    />{" "}
+                    +91-7019774617 <br />{" "}
+                    <span className="ms-5">+91-7996988679</span>
+                    {/* </a> */}
                   </li>
                 </ul>
               </MDBCol>
             </MDBRow>
           </MDBContainer>
-
-         
 
           <div
             className="text-center p-3"

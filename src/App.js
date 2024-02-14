@@ -59,6 +59,7 @@ import LBookedDetails from "./Components/Login/LBookedDetails";
 import LOrderHistroy from "./Components/Login/LOrderHistroy";
 import LCart from "./Components/Login/LCart";
 import LCheckout from "./Components/Login/LCheckout";
+import LPaymentOrder from "./Components/Login/LPaymentOrder";
 
 function App() {
   return (
@@ -363,6 +364,17 @@ function App() {
                 <>
                   <NavBar />
                   <LCheckout />
+                  <LFooter />
+                  <LEnquiry />
+                </>
+              }
+            />
+            <Route
+              path="/LPaymentOrder"
+              element={
+                <>
+                  <NavBar />
+                  <LPaymentOrder />
                   <LFooter />
                   <LEnquiry />
                 </>

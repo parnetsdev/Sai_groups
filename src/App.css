@@ -910,8 +910,14 @@ html.smooth {
   z-index: 999;
   top: 0;
 }
+
+
 /* Navbar Ends */
 
+
+[data-aos^=fade][data-aos^=fade]{
+  opacity: 1 !important;
+}
 
 /* Mobile View Start */
 /* @media screen and (max-width:799px) {

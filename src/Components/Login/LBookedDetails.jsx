@@ -6,10 +6,10 @@ import { AiFillEye } from "react-icons/ai";
 
 const LBookedDetails = () => {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [bookingsPerPage] = useState(10);
   const [bookings, setBooking] = useState([]);
 
   const [allbooked, setAllBooked] = useState([]);
@@ -19,40 +19,37 @@ const LBookedDetails = () => {
   //   ?.map(item => item?.SeatNo);
 
   const Allbooking = async (item) => {
-    let res = await axios.get(
-      "http://saisathish.info/api/Admin/getAllBooking/"
-    );
-    if (res.status === 200) {
-      setAllBooked(res.data.success);
+    try {
+      let res = await axios.get(
+        "http://saisathish.info/api/Admin/getAllBooking/"
+      );
+      if (res.status === 200) {
+        setAllBooked(res.data.success);
+      }
+    } catch (error) {
+      setAllBooked([]);
     }
   };
-
-
 
   useEffect(() => {
     Allbooking();
   }, []);
 
-    // const getUserId = async (id) => {
-    //   try {
-    //     await axios
-    //       .get("http://saisathish.info/api/Admin/getBookingBy/" + id)
-    //       .then((res) => {
-    //         if ((res.status = 200)) {
-    //           setBooking(res.data.success);
-    //         }
-    //       });
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // }
-  //   ;
+  const indexOfLastBooking = currentPage * bookingsPerPage;
+  const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
+  const currentBookings = allbooked.slice(
+    indexOfFirstBooking,
+    indexOfLastBooking
+  );
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div>
       <div className="container mt-3" style={{ backgroundColor: "white" }}>
         <div className="row ">
           <div className="col-md-12 text-center">
-            <h3 style={{ color: "#3DD065" }}> Booked Yathra Details</h3>
+            <h3 style={{ color: "#3DD065" }}> Booked Yatra Details</h3>
           </div>
         </div>
         <div className="row">
@@ -66,19 +63,20 @@ const LBookedDetails = () => {
                   <th>Email</th>
                   <th>Contact Person</th>
                   <th>Contact Number</th>
+                  <th>Package Type</th>
                   <th>Start Date</th>
-                  <th>No of Booking</th>
+                  <th>Seats allotted</th>
                   <th>Total Amount</th>
-                  <th>Recived Amount</th>
+                  <th>Received Amount</th>
                   <th>Payment Id</th>
                   <th>Payment Date</th>
-                  <th>Passangers Details</th>
+                  <th>Passengers Details</th>
                   <th>Status</th>
                 </tr>
               </thead>
 
               <tbody>
-                {allbooked?.map((item, i) => {
+                {currentBookings?.map((item, i) => {
                   const data = `${item?.SeatNo}`;
                   return (
                     <tr key={i}>
@@ -88,6 +86,11 @@ const LBookedDetails = () => {
                       <td>{item?.email}</td>
                       <td>{item?.name}</td>
                       <td>{item?.mobile}</td>
+                      <td>
+                        {item?.bookedFor === "bookedforbus"
+                          ? "Bus Package"
+                          : "Air Package"}
+                      </td>
                       <td>{item?.Bookingdate}</td>
                       <td>{data}</td>
 
@@ -96,7 +99,6 @@ const LBookedDetails = () => {
                       <td>{item?.PayId}</td>
                       <td>{moment(item?.createdAt).format("lll")}</td>
                       <td>
-                      
                         <AiFillEye
                           style={{ fontSize: "20px", color: "blue" }}
                           onClick={() => {
@@ -105,7 +107,6 @@ const LBookedDetails = () => {
                             setBooking(item);
                           }}
                         />
-                        
                       </td>
                       <td>Pending</td>
                     </tr>
@@ -113,6 +114,19 @@ const LBookedDetails = () => {
                 })}
               </tbody>
             </Table>
+            <div className="pagination d-flex justify-content-end mt-3 mb-3">
+              {[...Array(Math.ceil(allbooked.length / bookingsPerPage))].map(
+                (_, index) => (
+                  <Button
+                    style={{ marginRight: "5px" }}
+                    key={index}
+                    onClick={() => paginate(index + 1)}
+                  >
+                    {index + 1}
+                  </Button>
+                )
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -130,7 +144,7 @@ const LBookedDetails = () => {
               <tr>
                 <th>S.No</th>
                 <th>
-                  <div style={{ width: "150px" }}>Conatct Person</div>
+                  <div style={{ width: "150px" }}>Contact Person</div>
                 </th>
                 <th>
                   <div>Customer Details</div>
@@ -166,7 +180,7 @@ const LBookedDetails = () => {
                         </tr>
                       </thead>
                       <tbody>
-                      {bookings?.customerdetails?.map((ele) => {
+                        {bookings?.customerdetails?.map((ele) => {
                           return (
                             <tr key={ele?._id}>
                               <td>{ele?._id}</td>
@@ -175,8 +189,8 @@ const LBookedDetails = () => {
                               <td>{ele?.age}</td>
                               <td>{ele?.gender}</td>
                             </tr>
-                       );
-                      })}
+                          );
+                        })}
                       </tbody>
                     </Table>
                   </div>

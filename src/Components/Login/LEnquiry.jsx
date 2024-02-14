@@ -18,36 +18,38 @@ const LEnquiry = () => {
   const [enquiry, setEnquiry] = useState("");
   const [comment, setComment] = useState("");
   let [user, setUser] = useState({});
-  var validRegex =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  var mobilevalid = /^[6-9][0-9]{9}$/;
 
   const Enquirypost = async () => {
     user = JSON.parse(agentDetails);
     if (!name) {
       alert("Please Enter Your  Name");
       return;
+    } else {
+      const nameRegex = /^[A-Za-z]+(?:[\s'-][A-Za-z]+)*$/;
+      if (!nameRegex.test(name)) {
+        return alert("Name is Invalid!!! Please enter valid name only!!!");
+      }
     }
     if (!email) {
       alert("Please Enter Your Email Id ");
       return;
-    }
-    if (!email.match(validRegex)) {
-      alert("Enter Valid Email-Id");
-      return;
+    } else {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(email)) {
+        return alert(
+          "Email-id is Invalid!!! Please enter valid Email-id only!!!"
+        );
+      }
     }
 
     if (!mobile) {
       alert("Enter Contact Number");
       return;
-    }
-    if (mobile.length != 10) {
-      alert("Enter Contact Number should be 10 digits");
-      return;
-    }
-    if (!mobile.match(mobilevalid)) {
-      alert("Enter Valid Contact Number");
-      return;
+    } else {
+      const phoneNumberRegex = /^(\d{10}|\(\d{3}\)\s?\d{3}[-\s]?\d{4})$/;
+      if (!phoneNumberRegex.test(mobile)) {
+        return alert("mobile is Invalid!!! Please enter valid mobile only!!!");
+      }
     }
     if (!comment) {
       alert("Enter Comment");
@@ -73,7 +75,7 @@ const LEnquiry = () => {
 
         if (res.status === 200) {
           console.log(res.data.success);
-          alert("Submit Enquiry Successfully");
+          alert("Submitted enquiry successfully");
           navigate("/LoginHome");
         }
       } catch (error) {

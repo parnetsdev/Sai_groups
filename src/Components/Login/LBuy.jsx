@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Styles/LBuy.css";
 import axios from "axios";
+import { Button } from "react-bootstrap";
 export default function LBuy() {
   const agentDetails = sessionStorage.getItem("user");
   // const [selectedImg, setSelectedImg] = useState("");
@@ -33,6 +34,9 @@ export default function LBuy() {
       ? (childDivForImg.style.border = "2px solid red")
       : (parentDivForImg.children[3].style.border = "2px solid #ffffff");
   }
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [ProductsPerPage] = useState(2);
 
   const [allproduct, setAllproduct] = useState([]);
   const [SeeMore, setSeeMore] = useState(false);
@@ -86,6 +90,15 @@ export default function LBuy() {
     }
   };
 
+  const indexOfLastProduct = currentPage * ProductsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - ProductsPerPage;
+  const currentProducts = allproduct.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   useEffect(() => {
     if (!agentDetails) {
       return alert("Please login first");
@@ -96,7 +109,7 @@ export default function LBuy() {
   console.log(3232323, allproduct);
   return (
     <div className="main-container">
-      {allproduct?.map((items) => {
+      {currentProducts?.map((items) => {
         return (
           <div className="d-flex p-5">
             <div id={`parentImgDiv-${items?._id}`} className="p-3">
@@ -215,6 +228,19 @@ export default function LBuy() {
           </div>
         );
       })}
+      <div className="pagination d-flex justify-content-end mt-3 mb-3">
+        {[...Array(Math.ceil(allproduct.length / ProductsPerPage))].map(
+          (_, index) => (
+            <Button
+              style={{ marginRight: "5px" }}
+              key={index}
+              onClick={() => paginate(index + 1)}
+            >
+              {index + 1}
+            </Button>
+          )
+        )}
+      </div>
     </div>
   );
 }
